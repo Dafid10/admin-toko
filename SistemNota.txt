@@ -1,0 +1,130 @@
+// --- MESIN 1: Untuk Tombol "BUAT NOTA BARU" ---
+function generateNomorNota() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var dbSheet = ss.getSheetByName("DATA_NOTA");
+  var inputSheet = ss.getSheetByName("NOTA_INPUT");
+  
+  // Ambil nomor terakhir dari kolom A di DATA_NOTA
+  var data = dbSheet.getDataRange().getValues();
+  var lastNota = 1000; 
+  
+  // Ambil data dari baris terakhir di DATA_NOTA
+  if (data.length > 1) {
+    lastNota = data[data.length - 1][0];
+  }
+  
+  var newNota = lastNota + 1;
+  
+  // Kita isi di A2 supaya A1 tetap jadi judul kolom
+  inputSheet.getRange("A2").setValue(newNota); 
+  
+  // Booking nomor di DATA_NOTA
+  dbSheet.appendRow([newNota, new Date(), "PENDING", 0]);
+  
+  SpreadsheetApp.getUi().alert("Nomor Nota " + newNota + " berhasil dibuat!");
+}
+
+// --- MESIN 2: Untuk Tombol "DOWNLOAD PDF" (NOMOR URUT FIX KOTAK) ---
+function generatePDF() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var inputSheet = ss.getSheetByName("NOTA_INPUT");
+  
+  // !!! MASUKKAN ID GOOGLE DOCS KOKO DI BAWAH INI !!!
+  var templateId = "11wR5Aa-QESe9cTsvqJDgr8MzBKw90G4uoe4DFXggaJs"; 
+  
+  // 1. Deteksi baris terakhir di Sheets
+  var lastRow = inputSheet.getLastRow();
+  if (lastRow < 2) {
+    SpreadsheetApp.getUi().alert("Waduh, data di NOTA_INPUT masih kosong ko!");
+    return;
+  }
+  
+  // Ambil data dari Sheets (Baris 2 sampai terakhir, Kolom A sampai F)
+  var dataRentang = inputSheet.getRange(2, 1, lastRow - 1, 6).getValues();
+  
+  var noNota = dataRentang[0][0];
+  var customer = dataRentang[0][1];
+  var grandTotal = 0;
+  
+  // 2. Duplikasi file template Google Docs
+  var folder = DriveApp.getRootFolder();
+  var copy = DriveApp.getFileById(templateId).makeCopy("Nota_" + noNota + "_" + customer, folder);
+  var doc = DocumentApp.openById(copy.getId());
+  var body = doc.getBody();
+  
+  // Ganti info utama Nota & Customer
+  body.replaceText("{{NoNota}}", noNota);
+  body.replaceText("{{Customer}}", customer);
+  
+  // 3. PROSES OTOMATISASI TABEL GOOGLE DOCS
+  var tables = body.getTables();
+  var targetTable = null;
+  var templateRow = null;
+  var rowIndex = -1;
+  
+  // Cari tabel mana yang berisi kode {{NamaProduk}}
+  for (var t = 0; t < tables.length; t++) {
+    var table = tables[t];
+    for (var r = 0; r < table.getNumRows(); r++) { 
+      var row = table.getRow(r);
+      if (row.getText().indexOf("{{NamaProduk}}") !== -1) {
+        targetTable = table;
+        templateRow = row; // Baris template yang akan kita kloning
+        rowIndex = r;      
+        break;
+      }
+    }
+    if (targetTable) break;
+  }
+  
+  // Jika tabel template ditemukan
+  if (targetTable && templateRow) {
+    var barisKe = 0;
+    
+    // Looping data barang dari Sheets
+    for (var i = 0; i < dataRentang.length; i++) {
+      var namaProduk = dataRentang[i][2]; // Kolom C
+      var qty = dataRentang[i][3];        // Kolom D
+      var harga = dataRentang[i][4];      // Kolom E
+      var totalItem = dataRentang[i][5];  // Kolom F
+      
+      if (namaProduk !== "") {
+        // Kloning baris template
+        var newRow = templateRow.copy();
+        
+        // KUNCI PERBAIKAN: Isi kotak pertama (Indeks 0 = Kolom No) secara paksa dengan nomor urut
+        newRow.getCell(0).setText((barisKe + 1).toString()); 
+        
+        // Isi data ke dalam kolom sisa lainnya menggunakan replaceText
+        newRow.replaceText("{{NamaProduk}}", namaProduk);
+        newRow.replaceText("{{Qty}}", qty);
+        newRow.replaceText("{{Harga}}", Number(harga).toLocaleString('id-ID'));
+        newRow.replaceText("{{Subtotal}}", Number(totalItem).toLocaleString('id-ID')); 
+        
+        // Masukkan baris baru ke dalam tabel Docs secara berurutan
+        targetTable.insertTableRow(rowIndex + 1 + barisKe, newRow);
+        barisKe++;
+        
+        grandTotal += Number(totalItem || 0);
+      }
+    }
+    
+    // Hapus baris template kode asli agar bersih
+    targetTable.removeRow(rowIndex);
+    
+  } else {
+    SpreadsheetApp.getUi().alert("Waduh, kode {{NamaProduk}} tidak ditemukan di dalam tabel Google Docs Ko!");
+  }
+  
+  // 4. Isi Grand Total di bagian bawah tabel
+  body.replaceText("{{Total}}", grandTotal.toLocaleString('id-ID'));
+  
+  doc.saveAndClose();
+  
+  // 5. Ubah hasil kloningan menjadi PDF
+  var pdf = copy.getAs("application/pdf");
+  folder.createFile(pdf);
+  copy.setTrashed(true); 
+  
+  SpreadsheetApp.getUi().alert("PDF Berhasil Dibuat! Sekarang nomornya dijamin urut 1, 2, 3 Ko!");
+}

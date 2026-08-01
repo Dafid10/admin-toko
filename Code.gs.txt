@@ -1,0 +1,94 @@
+function processInvoices() {
+  const INBOX_ID = '1AVW3K79uG_4JZrAPgn6FgKH-UF5zeD-B';
+  const ARSIP_ID = '1kVoRguHXZ-Xi0NFoVDqR5GTNzt5jA25d';
+  
+  // API Key yang sudah diverifikasi dari akun Ko
+  const API_KEY = 'AQ.Ab8RN6I3FMCgsms9Lv_4CDYrPWssP-WoHqSd9d3yyZTxApm5UQ'; 
+  
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1");
+  const folderInbox = DriveApp.getFolderById(INBOX_ID);
+  const folderArsip = DriveApp.getFolderById(ARSIP_ID);
+  const files = folderInbox.getFiles();
+  
+  while (files.hasNext()) {
+    const file = files.next();
+    
+    try {
+      // 1. Ambil file gambar dan ubah ke format Base64
+      const blob = file.getBlob();
+      const base64Image = Utilities.base64Encode(blob.getBytes());
+      const mimeType = blob.getContentType();
+      
+      // 2. Instruksi (Prompt) ketat untuk AI
+      const prompt = `Ekstrak data barang dari gambar nota ini. 
+      Kembalikan HANYA dalam format array JSON persis seperti contoh ini:
+      [{"nama_barang": "NAMA BARANG", "jumlah": 10, "harga_satuan": 50000, "subtotal": 500000}]
+      Jangan gunakan pemisah ribuan pada angka. Abaikan teks pembuka atau penutup, pastikan hanya JSON murni.`;
+      
+      const payload = {
+        "contents": [{
+          "parts": [
+            { "text": prompt },
+            { "inline_data": { "mime_type": mimeType, "data": base64Image } }
+          ]
+        }]
+      };
+      
+      // 3. Panggil API Gemini menggunakan model terbaru (gemini-3.5-flash)
+      const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=" + API_KEY;
+      
+      const options = {
+        "method": "post",
+        "contentType": "application/json",
+        "payload": JSON.stringify(payload),
+        "muteHttpExceptions": true // Mencegah script berhenti total jika 1 nota error
+      };
+      
+      const response = UrlFetchApp.fetch(url, options);
+      const responseCode = response.getResponseCode();
+      const responseText = response.getContentText();
+      
+      // 4. Validasi dan Proses Hasil
+      if (responseCode === 200) {
+        const jsonResponse = JSON.parse(responseText);
+        
+        if (jsonResponse.candidates) {
+          let rawText = jsonResponse.candidates[0].content.parts[0].text;
+          
+          // Membersihkan format markdown bawaan AI (```json)
+          rawText = rawText.replace(/```json/g, "").replace(/```/g, "").trim();
+          const extractedData = JSON.parse(rawText);
+          
+          // 5. Masukkan ke Spreadsheet secara otomatis
+          extractedData.forEach(item => {
+            sheet.appendRow([
+              new Date(), 
+              "Pembelian", 
+              "Kitchenware", 
+              item.nama_barang, 
+              item.jumlah, 
+              item.harga_satuan, 
+              item.subtotal
+            ]);
+          });
+          
+          // Pindahkan file ke arsip setelah sukses diproses
+          file.moveTo(folderArsip);
+        }
+      } else {
+        Logger.log("Gagal memproses AI pada file " + file.getName() + " | Kode Error: " + responseCode + " | Detail: " + responseText);
+      }
+      
+    } catch (e) { 
+      Logger.log("Error sistem pada file " + file.getName() + " - Pesan: " + e.toString()); 
+    }
+    
+    // 6. Jeda 3 detik antar nota agar tidak terkena limit
+    Utilities.sleep(3000); 
+  }
+  
+  // Lanjutkan update stok jika fungsinya ada
+  if (typeof updateStokDariNota === "function") {
+    updateStokDariNota();
+  }
+}

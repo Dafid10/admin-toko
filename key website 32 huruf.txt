@@ -1,0 +1,4 @@
+abcdefghijkl12345678901234567890
+
+https://script.google.com/macros/s/AKfycbyEk19BJojc6zQx8vU0Mt8suxQpC3UFmEK-SRxzKYosNWKlNxh7WGhizJ1RuSudpW9zHg/exec?key=abcdefghijkl12345678901234567890&action=ping
+https://script.google.com/macros/s/AKfycbyEk19BJojc6zQx8vU0Mt8suxQpC3UFmEK-SRxzKYosNWKlNxh7WGhizJ1RuSudpW9zHg/exec?key=abcdefghijkl12345678901234567890&action=getStock

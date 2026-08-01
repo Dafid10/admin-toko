@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Product Detail - PasarDigital</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#444653",
+                        "on-secondary-container": "#00714d",
+                        "on-surface": "#191c1e",
+                        "surface-variant": "#e0e3e5",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "primary-container": "#1e40af",
+                        "on-primary-container": "#a8b8ff",
+                        "secondary-fixed-dim": "#4edea3",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#ffddb8",
+                        "secondary-fixed": "#6ffbbe",
+                        "inverse-primary": "#b8c4ff",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "surface-bright": "#f7f9fb",
+                        "on-background": "#191c1e",
+                        "inverse-on-surface": "#eff1f3",
+                        "error-container": "#ffdad6",
+                        "secondary": "#006c49",
+                        "on-secondary-fixed-variant": "#005236",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "surface-container": "#eceef0",
+                        "surface-tint": "#3755c3",
+                        "on-primary-fixed-variant": "#173bab",
+                        "inverse-surface": "#2d3133",
+                        "outline": "#757684",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "on-tertiary-fixed": "#2a1700",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#002113",
+                        "primary": "#00288e",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#4c2e00",
+                        "surface-dim": "#d8dadc",
+                        "surface-container-highest": "#e0e3e5",
+                        "surface-container-low": "#f2f4f6",
+                        "surface": "#f7f9fb",
+                        "on-tertiary-container": "#ffa929",
+                        "tertiary-container": "#6b4200",
+                        "surface-container-high": "#e6e8ea",
+                        "primary-fixed": "#dde1ff",
+                        "on-primary-fixed": "#001453",
+                        "secondary-container": "#6cf8bb",
+                        "outline-variant": "#c4c5d5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "gutter": "24px",
+                        "stack-md": "16px",
+                        "margin-mobile": "16px",
+                        "stack-xs": "4px",
+                        "container-max": "1280px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col antialiased">
+<!-- TopNavBar -->
+<header class="sticky top-0 w-full z-50 flex justify-between items-center px-margin-desktop h-20 bg-surface-container-lowest dark:bg-inverse-surface shadow-sm dark:shadow-none">
+<div class="flex items-center gap-stack-lg">
+<span class="text-headline-md font-headline-md font-black text-primary dark:text-inverse-primary cursor-pointer">PasarDigital</span>
+<nav class="hidden md:flex gap-gutter items-center">
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors py-2" href="#">Categories</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors py-2" href="#">Flash Sale</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors py-2" href="#">Merchant Central</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors py-2" href="#">Help</a>
+</nav>
+</div>
+<div class="flex items-center gap-gutter">
+<div class="relative hidden sm:block w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" style="font-variation-settings: 'FILL' 0;">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full text-body-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="Search products..." type="text"/>
+</div>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors relative">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">shopping_cart</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden border border-outline-variant cursor-pointer">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A detailed headshot of a young professional user in a well-lit studio environment, smiling subtly. The lighting is soft and natural, emphasizing a trustworthy and approachable persona suited for an e-commerce platform. High resolution, modern corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDq_tTSVG75kdMNcNlfKrzxdWSH_9O26KU8gF6ZPMrIAfeawa_VCDipLWsGbhhYeJgv5MU47RYVHOpbPNqW34CkHHm6pWEDcCVf9hrrOpU3zNiYkWKWlgUsHXChxG1lSMNSOLqQSwKxgAi8ut9-cWV3Pc5b7Rl8xOjvMhFa7qG9j1-Ai3XXPPtq_9ufcYFKBry5ySwhycvtY3jkwIUH2CtZrWnD8FackKCPh3_faUJzozEFw8TuoxYKVM_t97MS6K9i44VW_ReBow"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-[container-max] mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg">
+<!-- Breadcrumb -->
+<nav aria-label="Breadcrumb" class="flex text-label-sm text-on-surface-variant mb-stack-md">
+<ol class="inline-flex items-center space-x-1 md:space-x-2">
+<li class="inline-flex items-center">
+<a class="hover:text-primary transition-colors" href="#">Electronics</a>
+</li>
+<li>
+<div class="flex items-center">
+<span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="#">Audio</a>
+</div>
+</li>
+<li aria-current="page">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-[16px] mx-1">chevron_right</span>
+<span class="text-on-surface font-medium">Premium Wireless Headphones</span>
+</div>
+</li>
+</ol>
+</nav>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Product Images (Bento Grid Style) -->
+<div class="lg:col-span-7 flex flex-col gap-stack-sm">
+<div class="w-full aspect-[4/3] rounded-2xl overflow-hidden bg-surface-container-low relative group border border-outline-variant">
+<img alt="Main Product Image" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="A highly detailed close-up shot of sleek, modern premium wireless over-ear headphones resting on a minimalist white marble surface. Soft, diffused natural light highlights the matte finish and metallic accents of the headphones. The aesthetic is clean, professional, and high-tech, typical of luxury e-commerce product photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzQcZr0xskPcAZzLgWi5P1wibw3E52EdvzDxmf4nYeony2hvMs4nCTQ3O8F1a0Gr6IYSUV47c8takDTITb_xPJVpEZIgd7BzLj2tPWPiuz25VAsQ6w97ZUqmKmxaK_5mrg6-sUa76wuD1tRkpTlN2ZbJCeEoXQxle_dRySSIkS0GXiqXySyOYI0DYB3mLd9JsX7fmBDW8hdjLj6C43OGP3GRFn7ZfMCE3Sr-tED8l2E133W44qARcFx6ZnZl2d_UEDi2hJA1THXg"/>
+<div class="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+</div>
+<div class="grid grid-cols-4 gap-stack-sm">
+<div class="aspect-square rounded-xl overflow-hidden border border-primary ring-2 ring-primary/20 bg-surface-container-lowest cursor-pointer">
+<img alt="Thumbnail 1" class="w-full h-full object-cover" data-alt="A detailed side-profile shot of the same premium wireless headphones, showcasing the plush ear cups and adjustable headband against a stark, pure white background. High contrast, studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYrfjC9l8KBWnHxWLgoeGHWi3VoxaU7NESE9c9wxRnlKvvOvHfjCOUES61XuHfhRZqrL9CFotUZLUQg5lKoWyigJCF9-h_pyPPZuNxnQLe8V-s8zQwKhPWihSHyS8x6tQxKOShHpaK97AApun0kSAnIFqsQ0tcoL9VLVGJJOHgLtFfDkEzUTSHx-B6h7u-ldYHcT5mitgJRJqI4Z9CL8VCzXpddlh6C-32RAk2qxmBGcw5_UPqWAVGFJ5TvEB7pkKP1o2vHYjqEA"/>
+</div>
+<div class="aspect-square rounded-xl overflow-hidden border border-outline-variant bg-surface-container-lowest cursor-pointer hover:border-primary transition-colors opacity-70 hover:opacity-100">
+<img alt="Thumbnail 2" class="w-full h-full object-cover" data-alt="A detailed close-up focusing on the subtle branding and tactile control buttons on the earcup of the premium wireless headphones. Macro photography, sharp focus, bright professional lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYdbCEZu2HWbby7G0GyDfpTJEMkH9abRA8SRmDS1_DaNRkLMlaQcY6Q4T0zJ43LzmWgjov4dju_PBezQTmq4zpN4ca1yz5ID0x3UOp5BF0VDkc_oc5-A4Uz03F-VjVj_00SMTMlVIIqEcMuKRU6pHlCh0Cn8O74y-OauJ4W-NtPvK_HeYrK17Ne9lC-qR65bJrODY1ZTin5-xbdc8QHMTiJNJVObKYn82GIMM1i8tkjLOgRkVgUQvVhtpdnUvFmfhshut6M0eZTA"/>
+</div>
+<div class="aspect-square rounded-xl overflow-hidden border border-outline-variant bg-surface-container-lowest cursor-pointer hover:border-primary transition-colors opacity-70 hover:opacity-100">
+<img alt="Thumbnail 3" class="w-full h-full object-cover" data-alt="A lifestyle shot showing the premium wireless headphones elegantly placed next to a sleek modern smartphone and a cup of coffee on a light wooden desk, conveying a sense of productivity and modern lifestyle." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4fqgLG0pFydMGZRrjhtj6pDQGJzaZwC_elahqISVqQWq4eNJX8QRBvgzWbNPvyGTgs-Q_3aXPywcx0_NBKCrc4u2pUeN4qDKE56fFUQB57vUwJx7un6a4pjfiLr-UBwcRglu2hiGSCgKkHRJIiBR7EXGoe4tXE-fs492uVGldP61zLNbNS5n8N71I54GrGHRR42r4iDIyUDLrCBQLbgNG_ImfUPYltpFaCUJkvoUTvBCMcCZy95Lo-6mJt7YsNbTOreECX1Ex1Q"/>
+</div>
+<div class="aspect-square rounded-xl overflow-hidden border border-outline-variant bg-surface-container-lowest cursor-pointer hover:border-primary transition-colors opacity-70 hover:opacity-100 relative">
+<img alt="Thumbnail 4" class="w-full h-full object-cover" data-alt="An open view of the sleek, protective carrying case for the premium wireless headphones, interior lined with soft material, displayed on a clean white studio background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBppa3Z8Een6LkZ18povQKEI3nEwCAMsn_fl8raR6MWPdXXrM8dPkHF0wSViEOR_G3_ojYPnCteVqvhuVYY-qenLoFsXVv4VyMMhddAxcKLFzzd_a_ZmMtCssOzLl4wX_ChdQ8VY3OMRFZ2_DCnCwvRCSK95HbckAwtj52KO-OnoZ5fw9uwgbvrLSLBCvgPq3Al58266foc1KvZZtbkoWd1cLAQnQAXFUzpmzL3i8e0DwcQC5cl073xchxuyAt0MXwtkLYZGrBPzA"/>
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+<span class="text-on-primary font-label-md">+2</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Info & Actions (Glassmorphism inspired card) -->
+<div class="lg:col-span-5 relative">
+<div class="glass-panel p-stack-lg rounded-2xl shadow-[0_4px_20px_rgba(15,23,42,0.05)] sticky top-24 flex flex-col gap-stack-md border border-outline-variant/30">
+<div class="flex justify-between items-start">
+<h1 class="text-headline-md font-headline-md text-on-surface">SonicPro Active Noise Cancelling Headphones</h1>
+<button class="text-on-surface-variant hover:text-error transition-colors p-2 rounded-full hover:bg-error-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">favorite</span>
+</button>
+</div>
+<div class="flex items-center gap-stack-sm text-body-sm text-on-surface-variant">
+<div class="flex items-center text-[#F59E0B]">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0.5;">star_half</span>
+</div>
+<span class="font-medium text-on-surface">4.8</span>
+<span>(124 Reviews)</span>
+<span class="w-1 h-1 bg-outline rounded-full mx-1"></span>
+<span>1.5k+ Sold</span>
+</div>
+<div class="flex items-baseline gap-stack-sm my-stack-sm">
+<span class="text-display-lg-mobile md:text-display-lg font-display-lg text-primary">Rp 2.499.000</span>
+<span class="text-body-md text-on-surface-variant line-through">Rp 3.000.000</span>
+<span class="bg-error-container text-on-error-container text-label-sm font-label-sm px-2 py-1 rounded-md ml-2">-16%</span>
+</div>
+<hr class="border-outline-variant/50"/>
+<!-- Variants -->
+<div>
+<h3 class="text-label-md font-label-md text-on-surface mb-stack-sm">Color: <span class="font-normal">Midnight Black</span></h3>
+<div class="flex gap-stack-sm">
+<button aria-label="Midnight Black" class="w-10 h-10 rounded-full bg-[#1A1A1A] border-2 border-primary ring-2 ring-primary/20"></button>
+<button aria-label="Lunar White" class="w-10 h-10 rounded-full bg-[#E5E7EB] border border-outline-variant hover:border-primary transition-colors"></button>
+<button aria-label="Deep Navy" class="w-10 h-10 rounded-full bg-[#1E3A8A] border border-outline-variant hover:border-primary transition-colors"></button>
+</div>
+</div>
+<!-- Stock Indicator -->
+<div class="bg-surface-container-low p-stack-sm rounded-lg flex items-center justify-between border border-outline-variant/50 mt-stack-sm">
+<div class="flex items-center gap-stack-sm">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="text-body-sm text-on-surface-variant">Real-time Stock</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-secondary animate-pulse"></div>
+<span class="text-label-md font-label-md text-secondary">Tersedia (24)</span>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex gap-stack-md mt-stack-md">
+<button class="flex-1 bg-primary text-on-primary font-label-md text-label-md py-4 rounded-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] hover:bg-primary-fixed-variant transition-colors flex justify-center items-center gap-2" onclick="document.getElementById('checkout-modal').classList.remove('hidden')">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">shopping_bag</span>
+                            Beli Sekarang
+                        </button>
+<button class="px-6 border border-outline-variant bg-surface-container-lowest text-on-surface font-label-md rounded-xl hover:bg-surface-container-low transition-colors flex justify-center items-center">
+                            + Keranjang
+                        </button>
+</div>
+<!-- Guarantee Chips -->
+<div class="flex flex-wrap gap-stack-sm mt-stack-sm pt-stack-sm border-t border-outline-variant/50">
+<div class="flex items-center gap-1 text-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span>100% Original</span>
+</div>
+<div class="flex items-center gap-1 text-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">local_shipping</span>
+<span>Gratis Ongkir</span>
+</div>
+<div class="flex items-center gap-1 text-label-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">assignment_return</span>
+<span>7 Hari Retur</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Description Section (Tabs Layout) -->
+<div class="mt-stack-lg border border-outline-variant rounded-2xl bg-surface-container-lowest overflow-hidden shadow-[0_4px_20px_rgba(15,23,42,0.02)]">
+<div class="flex border-b border-outline-variant overflow-x-auto hide-scrollbar">
+<button class="px-stack-lg py-stack-md text-label-md font-label-md text-primary border-b-2 border-primary whitespace-nowrap">Deskripsi Produk</button>
+<button class="px-stack-lg py-stack-md text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors whitespace-nowrap">Spesifikasi</button>
+<button class="px-stack-lg py-stack-md text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors whitespace-nowrap">Ulasan (124)</button>
+<button class="px-stack-lg py-stack-md text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors whitespace-nowrap">Tanya Jawab</button>
+</div>
+<div class="p-stack-lg text-body-md text-on-surface-variant leading-relaxed space-y-4">
+<p>Experience pure sound with the SonicPro Active Noise Cancelling Headphones. Engineered for audiophiles and everyday commuters alike, these headphones deliver deep bass, crisp highs, and exceptional midrange clarity.</p>
+<p>The advanced Hybrid Active Noise Cancellation adapts to your environment, filtering out distracting low-frequency sounds like airplane engines and street traffic, so you can focus entirely on your music or podcasts.</p>
+<ul class="list-disc pl-5 space-y-2">
+<li><strong>Industry-leading ANC:</strong> Blocks out 95% of background noise.</li>
+<li><strong>40-Hour Battery Life:</strong> Get through an entire week of commuting on a single charge.</li>
+<li><strong>Quick Charge:</strong> A 10-minute charge gives you 5 hours of playback.</li>
+<li><strong>Multipoint Connection:</strong> Seamlessly switch between your phone and laptop.</li>
+</ul>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-stack-lg px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-gutter bg-surface-container-highest dark:bg-inverse-surface border-t border-outline-variant dark:border-outline">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface dark:text-inverse-on-surface">PasarDigital</span>
+<div class="flex gap-gutter flex-wrap justify-center text-label-sm text-on-surface-variant dark:text-on-surface-variant font-label-sm">
+<a class="hover:underline transition-all" href="#">About Us</a>
+<a class="hover:underline transition-all" href="#">Terms of Service</a>
+<a class="hover:underline transition-all" href="#">Privacy Policy</a>
+<a class="hover:underline transition-all" href="#">Merchant FAQ</a>
+</div>
+<p class="text-body-sm text-on-surface-variant dark:text-on-surface-variant font-body-sm">© 2024 PasarDigital Marketplace. All rights reserved.</p>
+</footer>
+<!-- Checkout Modal Overlay -->
+<div class="fixed inset-0 z-[100] hidden" id="checkout-modal">
+<div class="absolute inset-0 bg-on-background/50 backdrop-blur-sm transition-opacity" onclick="document.getElementById('checkout-modal').classList.add('hidden')"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[500px] bg-surface-container-lowest rounded-2xl shadow-2xl border border-outline-variant flex flex-col max-h-[921px] overflow-hidden">
+<!-- Modal Header -->
+<div class="flex justify-between items-center p-stack-md border-b border-outline-variant bg-surface-container-low">
+<h2 class="text-headline-sm font-headline-sm text-on-surface">Checkout Summary</h2>
+<button class="text-on-surface-variant hover:text-on-surface rounded-full p-1 hover:bg-surface-variant transition-colors" onclick="document.getElementById('checkout-modal').classList.add('hidden')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Body -->
+<div class="p-stack-md overflow-y-auto flex-grow flex flex-col gap-stack-md">
+<!-- Order Item -->
+<div class="flex gap-stack-md items-center bg-surface p-stack-sm rounded-xl border border-outline-variant/50">
+<div class="w-16 h-16 rounded-lg overflow-hidden bg-surface-variant">
+<img alt="Item Thumbnail" class="w-full h-full object-cover" data-alt="A small square thumbnail image showing the sleek black premium wireless headphones against a clean white background, meant for a small UI checkout component." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHsnSZsDi3oQU-E84bQ7scYvGBECIeacWTLRmXoYkRT4VXP-nJgKLmdyTKdKysvQPIedkjoMxWz3x2MbOnFKtq-_m_0sb82KFTcq5CM4WyyvuEoB-_FeUq9h2ztwLffrgrHqvZ_YKBwSd4pcRUFdHQPOe8c1nGIF13xChXEpaN5LINhu5pg44J11dqPa9gBKEQ5I9uNb4gF26JKimOmYWFOUTSSqh6dnlq49dn4yKi3pOLD11tsHwXrvg6PNtRi_WtkBFhtQK8vQ"/>
+</div>
+<div class="flex-grow">
+<h4 class="text-label-md font-label-md text-on-surface line-clamp-1">SonicPro ANC Headphones</h4>
+<p class="text-label-sm text-on-surface-variant">Midnight Black • 1x</p>
+</div>
+<div class="text-label-md font-label-md text-on-surface">
+                        Rp 2.499.000
+                    </div>
+</div>
+<!-- Payment Details -->
+<div class="bg-surface p-stack-md rounded-xl border border-outline-variant/50 space-y-2">
+<div class="flex justify-between text-body-sm text-on-surface-variant">
+<span>Subtotal</span>
+<span>Rp 2.499.000</span>
+</div>
+<div class="flex justify-between text-body-sm text-on-surface-variant">
+<span>Ongkos Kirim (Reguler)</span>
+<span>Rp 0</span>
+</div>
+<div class="flex justify-between text-body-sm text-on-surface-variant">
+<span>Biaya Layanan</span>
+<span>Rp 2.000</span>
+</div>
+<hr class="border-outline-variant border-dashed my-2"/>
+<div class="flex justify-between text-label-md font-label-md text-on-surface">
+<span>Total Pembayaran</span>
+<span class="text-primary">Rp 2.501.000</span>
+</div>
+</div>
+<!-- QRIS Section -->
+<div class="mt-stack-sm flex flex-col items-center p-stack-md border border-outline-variant rounded-xl bg-white shadow-sm relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500 to-blue-500"></div>
+<div class="flex items-center gap-2 mb-4">
+<span class="font-black text-xl italic text-on-surface tracking-tighter">QRIS</span>
+<span class="text-label-sm text-on-surface-variant bg-surface-container-high px-2 py-0.5 rounded-full">Scan untuk bayar</span>
+</div>
+<!-- QR Code Mock -->
+<div class="w-48 h-48 bg-white border-2 border-on-surface p-2 rounded-lg relative flex flex-col justify-between">
+<div class="flex justify-between">
+<div class="w-8 h-8 border-t-4 border-l-4 border-on-surface"></div>
+<div class="w-8 h-8 border-t-4 border-r-4 border-on-surface"></div>
+</div>
+<div class="absolute inset-4 opacity-50 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,#000_10px,#000_11px)] mix-blend-multiply"></div>
+<div class="absolute inset-4 opacity-50 bg-[repeating-linear-gradient(-45deg,transparent,transparent_10px,#000_10px,#000_11px)] mix-blend-multiply"></div>
+<!-- Center Logo Mock -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white p-1 rounded">
+<div class="w-full h-full bg-primary rounded flex items-center justify-center text-on-primary text-[10px] font-bold">PD</div>
+</div>
+<div class="flex justify-between">
+<div class="w-8 h-8 border-b-4 border-l-4 border-on-surface"></div>
+<div class="w-8 h-8 border-b-4 border-r-4 border-on-surface"></div>
+</div>
+</div>
+<div class="mt-4 flex gap-2 justify-center w-full">
+<div class="h-6 w-10 bg-gray-200 rounded text-[8px] flex items-center justify-center font-bold text-gray-500">GOPAY</div>
+<div class="h-6 w-10 bg-gray-200 rounded text-[8px] flex items-center justify-center font-bold text-gray-500">OVO</div>
+<div class="h-6 w-10 bg-gray-200 rounded text-[8px] flex items-center justify-center font-bold text-gray-500">DANA</div>
+</div>
+<p class="text-center text-[10px] text-on-surface-variant mt-2">Batas waktu pembayaran: 14:59</p>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="p-stack-md border-t border-outline-variant bg-surface-container-lowest">
+<button class="w-full bg-primary text-on-primary font-label-md text-label-md py-3 rounded-xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] hover:bg-primary-fixed-variant transition-colors">
+                    Saya Sudah Bayar
+                </button>
+</div>
+</div>
+</div>
+</body></html>

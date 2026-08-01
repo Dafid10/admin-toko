@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PasarDigital - Payment Details</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed-dim": "#ffb95f",
+                      "surface": "#f7f9fb",
+                      "on-primary-fixed": "#001453",
+                      "on-primary-container": "#a8b8ff",
+                      "surface-container": "#eceef0",
+                      "primary-fixed-dim": "#b8c4ff",
+                      "on-tertiary-container": "#ffa929",
+                      "outline": "#757684",
+                      "on-background": "#191c1e",
+                      "on-error": "#ffffff",
+                      "surface-bright": "#f7f9fb",
+                      "primary-fixed": "#dde1ff",
+                      "inverse-on-surface": "#eff1f3",
+                      "surface-variant": "#e0e3e5",
+                      "primary-container": "#1e40af",
+                      "error-container": "#ffdad6",
+                      "secondary-fixed-dim": "#4edea3",
+                      "background": "#f7f9fb",
+                      "inverse-surface": "#2d3133",
+                      "on-error-container": "#93000a",
+                      "on-secondary-container": "#00714d",
+                      "on-tertiary": "#ffffff",
+                      "tertiary-fixed": "#ffddb8",
+                      "on-surface-variant": "#444653",
+                      "outline-variant": "#c4c5d5",
+                      "on-primary": "#ffffff",
+                      "surface-container-highest": "#e0e3e5",
+                      "on-tertiary-fixed-variant": "#653e00",
+                      "surface-container-high": "#e6e8ea",
+                      "secondary-container": "#6cf8bb",
+                      "inverse-primary": "#b8c4ff",
+                      "secondary-fixed": "#6ffbbe",
+                      "on-secondary-fixed": "#002113",
+                      "tertiary": "#4c2e00",
+                      "on-tertiary-fixed": "#2a1700",
+                      "surface-container-low": "#f2f4f6",
+                      "secondary": "#006c49",
+                      "tertiary-container": "#6b4200",
+                      "surface-tint": "#3755c3",
+                      "surface-container-lowest": "#ffffff",
+                      "on-surface": "#191c1e",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-fixed-variant": "#005236",
+                      "surface-dim": "#d8dadc",
+                      "on-primary-fixed-variant": "#173bab",
+                      "error": "#ba1a1a",
+                      "primary": "#00288e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px",
+                      "2xl": "1rem"
+              },
+              "spacing": {
+                      "stack-sm": "8px",
+                      "gutter": "24px",
+                      "container-max": "1280px",
+                      "margin-mobile": "16px",
+                      "margin-desktop": "40px",
+                      "stack-md": "16px",
+                      "stack-xs": "4px",
+                      "stack-lg": "32px"
+              },
+              "fontFamily": {
+                      "body-lg": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "headline-sm": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "display-lg": ["Inter"],
+                      "display-lg-mobile": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "label-md": ["Inter"]
+              },
+              "fontSize": {
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "label-sm": ["12px", {"lineHeight": "14px", "fontWeight": "500"}],
+                      "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .filled-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for instructions */
+        .instruction-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .instruction-scroll::-webkit-scrollbar-track {
+            background: #eceef0;
+            border-radius: 4px;
+        }
+        .instruction-scroll::-webkit-scrollbar-thumb {
+            background: #c4c5d5;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col font-body-md antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar (Suppressed due to transactional nature of payment page) -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg flex flex-col items-center justify-center">
+<div class="w-full max-w-lg bg-surface-container-lowest rounded-2xl border border-outline-variant/30 shadow-[0_4px_20px_rgba(15,23,42,0.05)] overflow-hidden">
+<!-- Header Section -->
+<div class="bg-surface-container-low p-stack-md border-b border-outline-variant/30 text-center relative">
+<button aria-label="Go back" class="absolute left-stack-md top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-headline-sm text-headline-sm text-on-surface">Payment Details</h1>
+</div>
+<div class="p-stack-lg flex flex-col items-center gap-stack-lg">
+<!-- Order Summary & Amount -->
+<div class="text-center w-full">
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-stack-xs">Total to Pay</p>
+<div class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-primary mb-stack-sm">
+                        Rp 450.000
+                    </div>
+<div class="flex items-center justify-center gap-stack-xs text-on-surface-variant bg-surface-container-highest inline-flex px-3 py-1 rounded-full">
+<span class="font-body-sm text-body-sm">Order ID: #ORD-2024-8921</span>
+<button aria-label="Copy Order ID" class="hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[16px]" data-icon="content_copy">content_copy</span>
+</button>
+</div>
+</div>
+<!-- Timer -->
+<div class="w-full bg-error-container/30 border border-error-container rounded-xl p-stack-md flex flex-col items-center justify-center gap-stack-xs">
+<div class="flex items-center gap-stack-xs text-error">
+<span class="material-symbols-outlined" data-icon="timer">timer</span>
+<span class="font-label-md text-label-md">Complete payment in</span>
+</div>
+<div class="font-headline-md text-headline-md text-error tracking-widest font-mono" id="countdown">
+                        14:59
+                    </div>
+</div>
+<!-- QR Code Area -->
+<div class="w-full flex flex-col items-center gap-stack-md bg-surface-container-low rounded-xl p-stack-lg border border-outline-variant/20 relative">
+<div class="absolute top-4 right-4">
+<img alt="QRIS Logo" class="h-6 w-auto" data-alt="A small, high-quality vector logo of QRIS, the Indonesian standard for QR payments, featuring a clean blue and red design on a white background, isolated, sharp edges, modern corporate style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCy6caUuSQhpLUnizcd6KcNX9y5bcYv82BdNoaN-6YRx3ZNrdR9OtlOl2VnMqXCHMa94VT4N8Bpa50vyPVo1JZsedGAALFY6BnTkr47JL8m7Q9b4MIiBbRhfwyfzeyUFxcFVc7V2Jd77I2hzWAqOYpsNXVa-_x3KShWAE9aKinpQtdD9tiVMfzoxac4ZaOQl-w-C_FqOwKswyagT9_hvZe30Omk_auKkZO0gG-FYf6kyFW0A4JGonyTxuE5AtiGrrTh58JWxtTMQA"/>
+</div>
+<div class="bg-white p-4 rounded-xl shadow-sm border border-outline-variant/30 mt-4">
+<!-- Simulated QR Code -->
+<img alt="Payment QR Code" class="w-48 h-48 object-cover" data-alt="A crisp, high-contrast, black and white square QR code centered on a clean white background. The pattern is complex and dense, typical of a standard payment QR code. The image is perfectly square and evenly lit, professional e-commerce technical asset." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGzXsR_Yc85T4zJzCyHyyvwSn8umkomPyZjiAEV_Snu1duxffNNcVQcFdmvmVPHUDx0L8HKGnAGmebUE5auKkh3lGea5X2AbkvUGlaGcsItn8y9N-IMXBKmAu0HbIYuAoDciw32yHU2lr2UqwzN6LmJbjBqn0VpWsL4kRVGZLIqE0KvGWsIaIOcuRFQZ3HU7_mRwfAvX27VlC6Tu1o0H1wzHIaBrd0YDjO6S5LZPV82-_ngJxCJBahWyI0PgqTThqxwQM78YJ3Wg"/>
+</div>
+<button class="flex items-center gap-stack-sm text-primary hover:text-primary-fixed-variant transition-colors font-label-md text-label-md bg-primary-fixed/20 px-4 py-2 rounded-lg">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+                        Download QR
+                    </button>
+</div>
+<!-- Payment Instructions Accordion -->
+<div class="w-full border border-outline-variant/30 rounded-xl overflow-hidden">
+<button class="w-full flex items-center justify-between p-stack-md bg-surface-container-low hover:bg-surface-container transition-colors" onclick="toggleInstructions()">
+<div class="flex items-center gap-stack-sm text-on-surface">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span class="font-label-md text-label-md">How to pay using QRIS?</span>
+</div>
+<span class="material-symbols-outlined transition-transform duration-300" data-icon="expand_more" id="instruction-chevron">expand_more</span>
+</button>
+<div class="hidden instruction-scroll bg-surface-container-lowest max-h-48 overflow-y-auto border-t border-outline-variant/30 p-stack-md" id="instructions-content">
+<ol class="list-decimal list-inside space-y-stack-sm font-body-sm text-body-sm text-on-surface-variant">
+<li>Open your supported mobile banking or e-wallet application (e.g., GoPay, OVO, Dana, ShopeePay, BCA mobile, Livin' by Mandiri).</li>
+<li>Select the <strong>Scan QR</strong> or <strong>Pay</strong> option from the main menu.</li>
+<li>Scan the QR code displayed above on this screen. If you are using the same device, you can save the QR code image and select it from your gallery within the app.</li>
+<li>Verify that the merchant name is <strong>PasarDigital Marketplace</strong> and the total amount matches <strong>Rp 450.000</strong>.</li>
+<li>Confirm the payment and enter your PIN to complete the transaction.</li>
+</ol>
+</div>
+</div>
+</div>
+<!-- Action Area -->
+<div class="p-stack-md bg-surface-container-low border-t border-outline-variant/30 flex flex-col gap-stack-sm">
+<button class="w-full bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-label-md text-label-md py-3 rounded-lg shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] transition-all flex justify-center items-center gap-2">
+<span class="material-symbols-outlined" data-icon="refresh">refresh</span>
+                    Check Payment Status
+                </button>
+<button class="w-full bg-transparent hover:bg-surface-container-highest text-on-surface-variant font-label-md text-label-md py-3 rounded-lg border border-outline-variant transition-all">
+                    Cancel Order
+                </button>
+</div>
+</div>
+<!-- Trust Badge -->
+<div class="mt-stack-lg flex items-center justify-center gap-stack-sm text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="lock" data-weight="fill">lock</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Secure Payment Powered by PasarDigital</span>
+</div>
+</main>
+<script>
+        // Simple countdown timer simulation
+        let timeLeft = 14 * 60 + 59; // 14:59 in seconds
+        const countdownEl = document.getElementById('countdown');
+
+        const timer = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                countdownEl.innerHTML = "EXPIRED";
+                countdownEl.classList.replace('text-error', 'text-outline');
+                return;
+            }
+            
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            
+            countdownEl.innerHTML = `${minutes}:${seconds}`;
+            timeLeft -= 1;
+        }, 1000);
+
+        // Instruction toggle
+        function toggleInstructions() {
+            const content = document.getElementById('instructions-content');
+            const chevron = document.getElementById('instruction-chevron');
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                chevron.classList.add('rotate-180');
+            } else {
+                content.classList.add('hidden');
+                chevron.classList.remove('rotate-180');
+            }
+        }
+    </script>
+</body></html>

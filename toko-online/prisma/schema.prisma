@@ -1,0 +1,73 @@
+// Prisma schema — model data toko online (SQLite Compatible)
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String
+  slug      String    @unique
+  products  Product[]
+  createdAt DateTime  @default(now())
+}
+
+model Product {
+  id          String      @id @default(cuid())
+  name        String
+  slug        String      @unique
+  sku         String?     @unique
+  description String
+  price       Int
+  costPrice   Int         @default(0)
+  stock       Int         @default(0)
+  imageUrl    String?
+  isActive    Boolean     @default(true)
+  category    Category    @relation(fields: [categoryId], references: [id])
+  categoryId  String
+  orderItems  OrderItem[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Order {
+  id                String       @id @default(cuid())
+  orderNumber       String       @unique
+  customerName      String
+  customerPhone     String
+  customerAddress   String
+  status            String       @default("MENUNGGU_PEMBAYARAN")
+  totalAmount       Int
+  paymentFee        Int          @default(0)
+  xenditPaymentId   String?      @unique
+  xenditQrString    String?
+  xenditReferenceId String?      @unique
+  paymentMethod     String       @default("QRIS")
+  items             OrderItem[]
+  createdAt         DateTime     @default(now())
+  paidAt            DateTime?
+}
+
+model OrderItem {
+  id          String  @id @default(cuid())
+  order       Order   @relation(fields: [orderId], references: [id])
+  orderId     String
+  product     Product @relation(fields: [productId], references: [id])
+  productId   String
+  productName String
+  price       Int
+  costPrice   Int     @default(0)
+  quantity    Int
+  subtotal    Int
+}
+
+model Admin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}

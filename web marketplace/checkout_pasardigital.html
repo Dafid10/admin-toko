@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PasarDigital - Checkout</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "surface": "#f7f9fb",
+                        "on-primary-fixed": "#001453",
+                        "on-primary-container": "#a8b8ff",
+                        "surface-container": "#eceef0",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "on-tertiary-container": "#ffa929",
+                        "outline": "#757684",
+                        "on-background": "#191c1e",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#f7f9fb",
+                        "primary-fixed": "#dde1ff",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-variant": "#e0e3e5",
+                        "primary-container": "#1e40af",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#4edea3",
+                        "background": "#f7f9fb",
+                        "inverse-surface": "#2d3133",
+                        "on-error-container": "#93000a",
+                        "on-secondary-container": "#00714d",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#ffddb8",
+                        "on-surface-variant": "#444653",
+                        "outline-variant": "#c4c5d5",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "surface-container-high": "#e6e8ea",
+                        "secondary-container": "#6cf8bb",
+                        "inverse-primary": "#b8c4ff",
+                        "secondary-fixed": "#6ffbbe",
+                        "on-secondary-fixed": "#002113",
+                        "tertiary": "#4c2e00",
+                        "on-tertiary-fixed": "#2a1700",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary": "#006c49",
+                        "tertiary-container": "#6b4200",
+                        "surface-tint": "#3755c3",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#005236",
+                        "surface-dim": "#d8dadc",
+                        "on-primary-fixed-variant": "#173bab",
+                        "error": "#ba1a1a",
+                        "primary": "#00288e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "stack-md": "16px",
+                        "stack-xs": "4px",
+                        "stack-lg": "32px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7f9fb; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 1; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col">
+<!-- TopNavBar (Suppressed due to Transactional Nature of Checkout, but keeping a simplified header for brand presence) -->
+<header class="sticky top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-20 bg-surface-container-lowest shadow-sm">
+<div class="flex items-center">
+<span class="font-headline-md text-headline-md font-black text-primary">PasarDigital</span>
+</div>
+<div class="flex items-center font-headline-sm text-headline-sm text-on-surface">
+            Secure Checkout
+        </div>
+<div class="w-[120px] hidden md:block"></div> <!-- Spacer for balance -->
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg">
+<a class="inline-flex items-center text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md mb-stack-lg" href="#">
+<span class="material-symbols-outlined mr-stack-sm text-[20px]">arrow_back</span>
+            Return to Cart
+        </a>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Forms -->
+<div class="lg:col-span-7 flex flex-col gap-stack-lg">
+<!-- Shipping Address Section -->
+<section class="bg-surface-container-lowest rounded-2xl p-stack-lg shadow-[0_4px_20px_rgba(15,23,42,0.05)] border border-surface-variant">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-stack-md flex items-center">
+<span class="material-symbols-outlined mr-stack-sm text-primary">location_on</span>
+                        Shipping Address
+                    </h2>
+<form class="space-y-stack-md">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md">
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-stack-xs" for="firstName">First Name</label>
+<input class="w-full border-surface-variant rounded-lg font-body-sm text-body-sm focus:ring-primary focus:border-primary transition-colors bg-surface-container-lowest" id="firstName" placeholder="Jane" type="text"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-stack-xs" for="lastName">Last Name</label>
+<input class="w-full border-surface-variant rounded-lg font-body-sm text-body-sm focus:ring-primary focus:border-primary transition-colors bg-surface-container-lowest" id="lastName" placeholder="Doe" type="text"/>
+</div>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-stack-xs" for="address">Street Address</label>
+<input class="w-full border-surface-variant rounded-lg font-body-sm text-body-sm focus:ring-primary focus:border-primary transition-colors bg-surface-container-lowest" id="address" placeholder="123 Market Street" type="text"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-stack-md">
+<div class="md:col-span-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-stack-xs" for="city">City</label>
+<input class="w-full border-surface-variant rounded-lg font-body-sm text-body-sm focus:ring-primary focus:border-primary transition-colors bg-surface-container-lowest" id="city" placeholder="Jakarta" type="text"/>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-stack-xs" for="zip">Postal Code</label>
+<input class="w-full border-surface-variant rounded-lg font-body-sm text-body-sm focus:ring-primary focus:border-primary transition-colors bg-surface-container-lowest" id="zip" placeholder="10110" type="text"/>
+</div>
+</div>
+<div>
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-stack-xs" for="phone">Phone Number</label>
+<input class="w-full border-surface-variant rounded-lg font-body-sm text-body-sm focus:ring-primary focus:border-primary transition-colors bg-surface-container-lowest" id="phone" placeholder="+62 812 3456 7890" type="tel"/>
+</div>
+</form>
+</section>
+<!-- Payment Method Section -->
+<section class="bg-surface-container-lowest rounded-2xl p-stack-lg shadow-[0_4px_20px_rgba(15,23,42,0.05)] border border-surface-variant">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-stack-md flex items-center">
+<span class="material-symbols-outlined mr-stack-sm text-primary">payments</span>
+                        Payment Method
+                    </h2>
+<div class="space-y-stack-md">
+<!-- QRIS (Featured) -->
+<label class="relative flex cursor-pointer rounded-xl border border-primary bg-primary-fixed-dim/20 p-stack-md hover:bg-primary-fixed-dim/30 transition-colors">
+<div class="flex w-full items-center justify-between">
+<div class="flex items-center">
+<input checked="" class="h-5 w-5 border-outline text-primary focus:ring-primary" name="payment_method" type="radio"/>
+<div class="ml-stack-md flex flex-col">
+<span class="font-label-md text-label-md text-on-surface flex items-center">
+                                            QRIS <span class="ml-2 inline-flex items-center rounded-full bg-secondary-container px-2 py-0.5 font-label-sm text-[10px] text-on-secondary-container">Recommended</span>
+</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-stack-xs">Scan with any supported banking or e-wallet app</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-[32px] text-primary">qr_code_scanner</span>
+</div>
+</label>
+<!-- Virtual Account -->
+<label class="relative flex cursor-pointer rounded-xl border border-surface-variant p-stack-md hover:bg-surface-container-low transition-colors">
+<div class="flex w-full items-center justify-between">
+<div class="flex items-center">
+<input class="h-5 w-5 border-outline text-primary focus:ring-primary" name="payment_method" type="radio"/>
+<div class="ml-stack-md flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Bank Transfer (Virtual Account)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-stack-xs">BCA, Mandiri, BNI, BRI</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-[32px] text-on-surface-variant">account_balance</span>
+</div>
+</label>
+<!-- E-Wallet -->
+<label class="relative flex cursor-pointer rounded-xl border border-surface-variant p-stack-md hover:bg-surface-container-low transition-colors">
+<div class="flex w-full items-center justify-between">
+<div class="flex items-center">
+<input class="h-5 w-5 border-outline text-primary focus:ring-primary" name="payment_method" type="radio"/>
+<div class="ml-stack-md flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">E-Wallet</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-stack-xs">GoPay, OVO, DANA, ShopeePay</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-[32px] text-on-surface-variant">account_balance_wallet</span>
+</div>
+</label>
+</div>
+</section>
+</div>
+<!-- Right Column: Order Summary -->
+<div class="lg:col-span-5">
+<section class="bg-surface-container-lowest rounded-2xl p-stack-lg shadow-[0_4px_20px_rgba(15,23,42,0.05)] border border-surface-variant sticky top-[100px]">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-stack-md flex items-center border-b border-surface-variant pb-stack-md">
+<span class="material-symbols-outlined mr-stack-sm text-primary">shopping_cart</span>
+                        Order Summary
+                    </h2>
+<!-- Items List -->
+<div class="space-y-stack-md mb-stack-lg max-h-[300px] overflow-y-auto pr-stack-xs custom-scrollbar">
+<!-- Item 1 -->
+<div class="flex items-center gap-stack-md">
+<div class="w-16 h-16 rounded-lg bg-surface-container-highest overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A clean, modern product shot of a minimalist mechanical keyboard with white and grey keycaps, sitting on a light slate background. High key lighting, professional e-commerce style photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_g9pgf7fN06OV2PUQUDkcYalCllOQYsr85YnvU6PD89E3Pg-WT-qpcghCkFwGPUkvzXYFRcmzQgf1rTSjHAqDRNGD7GwPoRt2KcqMXcwzkXtbvUIsGkqu8hXFZb9ZXzhbrMVlkZ4pcwwDVgJrqDYmqjZ8rtXAq3bVykOp0pZerUDIHoIxFp1zuJZDO7YVqa_rnTXjxmfxsMFgyJXlNsV5Rr8XB_JY4Tpx6rDdsxH4LUCWrkU09B8gVm2sfFPPVOGIIKIVEuB5Dg"/>
+</div>
+<div class="flex-grow">
+<h3 class="font-label-md text-label-md text-on-surface line-clamp-1">Minimalist Mechanical Keyboard Pro</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Variant: Grey Switches</p>
+</div>
+<div class="text-right">
+<p class="font-label-md text-label-md text-on-surface">Rp 1.250.000</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Qty: 1</p>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex items-center gap-stack-md">
+<div class="w-16 h-16 rounded-lg bg-surface-container-highest overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A high-quality product photo of a sleek, ergonomic wireless mouse in matte black, positioned diagonally on a clean white surface with soft, diffused studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIhakScCzRQgwEyZK-CKqjnkZ3Si-2NDO0LVbupTZd01nrqIqBeeEYREXY93O8T1i9qIISD-BemmcliDaHlKRiBsevvfYMUjTar0RwywVC4Ge5CDz8ZfWNhOMZB_URhipBGyenLYbHkl2TKZW2zhFJeTISr76Qxjioc9CwxfMl6EpL1yRKZmQN_sU91wjuUa0VVt26Ejvt7r6H_JYbCifr2LApRkUmqXXWlD4d33ulmIapOYXp_FnIp4AGbGYYt-WCG8MUCHLgxw"/>
+</div>
+<div class="flex-grow">
+<h3 class="font-label-md text-label-md text-on-surface line-clamp-1">Ergonomic Wireless Mouse</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Variant: Matte Black</p>
+</div>
+<div class="text-right">
+<p class="font-label-md text-label-md text-on-surface">Rp 450.000</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Qty: 1</p>
+</div>
+</div>
+</div>
+<!-- Promo Code -->
+<div class="mb-stack-lg border-t border-surface-variant pt-stack-md">
+<label class="block font-label-sm text-label-sm text-on-surface-variant mb-stack-xs" for="promo">Promo Code</label>
+<div class="flex gap-stack-sm">
+<input class="flex-grow border-surface-variant rounded-lg font-body-sm text-body-sm focus:ring-primary focus:border-primary bg-surface-container-lowest" id="promo" placeholder="Enter code here" type="text"/>
+<button class="bg-surface-container-high text-on-surface px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-surface-variant transition-colors border border-surface-variant">Apply</button>
+</div>
+</div>
+<!-- Price Breakdown -->
+<div class="space-y-stack-sm mb-stack-lg border-t border-surface-variant pt-stack-md">
+<div class="flex justify-between font-body-sm text-body-sm text-on-surface-variant">
+<span>Subtotal (2 items)</span>
+<span>Rp 1.700.000</span>
+</div>
+<div class="flex justify-between font-body-sm text-body-sm text-on-surface-variant">
+<span>Shipping Fee</span>
+<span>Rp 25.000</span>
+</div>
+<div class="flex justify-between font-body-sm text-body-sm text-on-surface-variant text-secondary">
+<span>Platform Discount</span>
+<span>-Rp 50.000</span>
+</div>
+</div>
+<!-- Total -->
+<div class="flex justify-between items-center mb-stack-lg border-t border-surface-variant pt-stack-md">
+<span class="font-headline-sm text-headline-sm text-on-surface">Total</span>
+<span class="font-headline-md text-headline-md text-primary font-bold">Rp 1.675.000</span>
+</div>
+<!-- Pay Button -->
+<button class="w-full bg-primary text-on-primary py-4 rounded-xl font-headline-sm text-headline-sm hover:bg-surface-tint transition-all shadow-md hover:shadow-lg flex justify-center items-center gap-stack-sm">
+<span class="material-symbols-outlined">lock</span>
+                        Pay Now
+                    </button>
+<p class="text-center font-body-sm text-body-sm text-on-surface-variant mt-stack-sm flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[16px]">verified_user</span>
+                        Payments are 100% secure and encrypted
+                    </p>
+</section>
+</div>
+</div>
+</main>
+<!-- Footer (Suppressed on Checkout to keep user focused, only keeping minimal legal links) -->
+<footer class="w-full py-stack-lg px-margin-desktop flex justify-center items-center border-t border-outline-variant bg-surface-container-highest mt-auto">
+<div class="font-body-sm text-body-sm text-on-surface-variant flex gap-gutter">
+<span>© 2024 PasarDigital Marketplace.</span>
+<a class="hover:underline" href="#">Terms of Service</a>
+<a class="hover:underline" href="#">Privacy Policy</a>
+</div>
+</footer>
+<style>
+        /* Custom Scrollbar for Order Summary Items */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #c4c5d5;
+            border-radius: 20px;
+        }
+    </style>
+</body></html>

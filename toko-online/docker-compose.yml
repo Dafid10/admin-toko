@@ -1,0 +1,20 @@
+# Opsional — pakai ini kalau tidak mau install PostgreSQL manual saat development lokal.
+# Jalankan: docker compose up -d
+# Lalu di .env: DATABASE_URL="postgresql://toko_user:toko_pass@localhost:5432/toko_online?schema=public"
+
+version: "3.8"
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: toko_user
+      POSTGRES_PASSWORD: toko_pass
+      POSTGRES_DB: toko_online
+    ports:
+      - "5432:5432"
+    volumes:
+      - toko_db_data:/var/lib/postgresql/data
+
+volumes:
+  toko_db_data:

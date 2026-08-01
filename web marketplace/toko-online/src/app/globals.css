@@ -1,0 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #F7F9FB;
+  color: #191C1E;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+.material-symbols-outlined.filled {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.btn-primary {
+  @apply bg-primary text-white rounded-lg px-5 py-2.5 font-label-md hover:bg-primary-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-[inset_0_1px_0_rgba(255,255,255,0.15)];
+}
+
+.btn-secondary {
+  @apply bg-surface-lowest text-ink border border-outline-variant rounded-lg px-5 py-2.5 font-label-md hover:bg-surface-low transition-colors;
+}
+
+.card {
+  @apply bg-surface-lowest border border-outline-variant rounded-2xl shadow-card;
+}
+
+.status-chip-lunas {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-label-sm bg-secondary/10 text-secondary border border-secondary/20;
+}
+.status-chip-pending {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-label-sm bg-tertiary-container/20 text-on-tertiary-container border border-tertiary-container/30;
+}
+.status-chip-neutral {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-label-sm bg-surface-container text-ink-muted border border-outline-variant;
+}
+.status-chip-danger {
+  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-label-sm bg-danger-container text-on-danger-container border border-danger-container;
+}

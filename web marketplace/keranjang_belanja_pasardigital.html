@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PasarDigital - Shopping Cart</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed-dim": "#ffb95f",
+                      "surface": "#f7f9fb",
+                      "on-primary-fixed": "#001453",
+                      "on-primary-container": "#a8b8ff",
+                      "surface-container": "#eceef0",
+                      "primary-fixed-dim": "#b8c4ff",
+                      "on-tertiary-container": "#ffa929",
+                      "outline": "#757684",
+                      "on-background": "#191c1e",
+                      "on-error": "#ffffff",
+                      "surface-bright": "#f7f9fb",
+                      "primary-fixed": "#dde1ff",
+                      "inverse-on-surface": "#eff1f3",
+                      "surface-variant": "#e0e3e5",
+                      "primary-container": "#1e40af",
+                      "error-container": "#ffdad6",
+                      "secondary-fixed-dim": "#4edea3",
+                      "background": "#f7f9fb",
+                      "inverse-surface": "#2d3133",
+                      "on-error-container": "#93000a",
+                      "on-secondary-container": "#00714d",
+                      "on-tertiary": "#ffffff",
+                      "tertiary-fixed": "#ffddb8",
+                      "on-surface-variant": "#444653",
+                      "outline-variant": "#c4c5d5",
+                      "on-primary": "#ffffff",
+                      "surface-container-highest": "#e0e3e5",
+                      "on-tertiary-fixed-variant": "#653e00",
+                      "surface-container-high": "#e6e8ea",
+                      "secondary-container": "#6cf8bb",
+                      "inverse-primary": "#b8c4ff",
+                      "secondary-fixed": "#6ffbbe",
+                      "on-secondary-fixed": "#002113",
+                      "tertiary": "#4c2e00",
+                      "on-tertiary-fixed": "#2a1700",
+                      "surface-container-low": "#f2f4f6",
+                      "secondary": "#006c49",
+                      "tertiary-container": "#6b4200",
+                      "surface-tint": "#3755c3",
+                      "surface-container-lowest": "#ffffff",
+                      "on-surface": "#191c1e",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-fixed-variant": "#005236",
+                      "surface-dim": "#d8dadc",
+                      "on-primary-fixed-variant": "#173bab",
+                      "error": "#ba1a1a",
+                      "primary": "#00288e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-sm": "8px",
+                      "gutter": "24px",
+                      "container-max": "1280px",
+                      "margin-mobile": "16px",
+                      "margin-desktop": "40px",
+                      "stack-md": "16px",
+                      "stack-xs": "4px",
+                      "stack-lg": "32px"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "headline-sm": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "display-lg-mobile": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "14px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-sm": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg-mobile": [
+                              "36px",
+                              {
+                                      "lineHeight": "44px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="sticky top-0 w-full z-50 flex justify-between items-center px-margin-desktop h-20 bg-surface-container-lowest dark:bg-inverse-surface shadow-sm dark:shadow-none">
+<div class="flex items-center gap-gutter">
+<span class="text-headline-md font-headline-md font-black text-primary dark:text-inverse-primary">PasarDigital</span>
+<div class="hidden md:flex gap-gutter items-center">
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors" href="#">Categories</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors" href="#">Flash Sale</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors" href="#">Merchant Central</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-inverse-primary transition-colors" href="#">Help</a>
+</div>
+</div>
+<div class="flex items-center gap-stack-md">
+<button class="text-primary dark:text-inverse-primary hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</button>
+<button class="text-primary dark:text-inverse-primary hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A professional headshot of a user in a well-lit modern office environment. The lighting is soft and flattering, highlighting a friendly expression. The color palette is neutral with subtle warm tones, perfectly fitting a high-trust e-commerce platform profile picture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6ZmEvKgbEL-CKQsfyjIDRodLOhDcJvgDIwN0oH7Gdk7j16SdAT4rAy0abUOVDzlCFbKspSWKb2mFQMumB6Y-NW0CjHpAAm5ZldcrbTqwqYQdZir2DmXu6zA9ookNmdR6lZFK2ocCSXnqV61iZoYBUiw5vGhcB1HUVdcrLV-fJmwFpcuyXl9zmji47L1FicJqEQ1BBk27GOf1aJCO6L7hHwPXy2S3Fq9jo0EXV-UjkEYOXGx-ML_tiSOBA2YzuTdPVTUUb67aYQw"/>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg">
+<div class="mb-stack-lg">
+<h1 class="font-display-lg text-display-lg text-on-surface">Your Cart</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-stack-sm">Review your items before proceeding to checkout.</p>
+</div>
+<div class="flex flex-col lg:flex-row gap-gutter items-start">
+<!-- Cart Items List -->
+<div class="w-full lg:w-2/3 flex flex-col gap-stack-md">
+<!-- Item 1 -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant p-stack-md flex flex-col sm:flex-row gap-stack-md items-center shadow-[0_4px_20px_rgba(15,23,42,0.05)] hover:shadow-[0_8px_30px_rgba(15,23,42,0.08)] transition-shadow">
+<div class="w-full sm:w-32 h-32 bg-surface-container rounded-xl overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A sleek pair of high-end over-ear headphones, the SonicPro, resting on a clean white surface. Soft, diffused lighting highlights the premium matte black finish and plush ear cushions. The overall aesthetic is modern, crisp, and professional, suitable for a top-tier electronics catalog." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCk8CYZFY1o7DcphHBjvXgDzGsaFCN1-_nZKGaYwt6ImUYJ8IOuY3nqZNYhvu3-JJl6uv2GSqDCMQXs-_FulgDsbhJMZJv1xA2Cr44yZZ3W77nhOFyq80r7c1EdqLPBm58C0WBCBXoQIDC40VheHfONmIh3FxiisXmPW5tsdWPvGdvIVoQqU6mG2ZfQJNNNbjGoNWIuzICfdXFjAX3gXSbF3WZkiYfrmZgeOYfJ_UhYflSILeBkT5n-Zr3oT2_CyMUGGvLb_12kmw"/>
+</div>
+<div class="flex-grow flex flex-col justify-between h-full">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">SonicPro Headphones</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-stack-xs">Matte Black • Wireless • Noise Cancelling</p>
+</div>
+<div class="flex items-center justify-between w-full mt-stack-md sm:mt-0">
+<span class="font-headline-sm text-headline-sm text-primary">Rp 2.499.000</span>
+<div class="flex items-center gap-stack-sm border border-outline-variant rounded-lg p-1">
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:bg-surface-container rounded-md transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="remove">remove</span>
+</button>
+<span class="font-label-md text-label-md w-6 text-center">1</span>
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:bg-surface-container rounded-md transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</div>
+<button class="absolute top-4 right-4 sm:relative sm:top-0 sm:right-0 text-outline hover:text-error transition-colors p-2">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+<!-- Item 2 -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant p-stack-md flex flex-col sm:flex-row gap-stack-md items-center shadow-[0_4px_20px_rgba(15,23,42,0.05)] hover:shadow-[0_8px_30px_rgba(15,23,42,0.08)] transition-shadow">
+<div class="w-full sm:w-32 h-32 bg-surface-container rounded-xl overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A minimalist mechanical keyboard with white keycaps and a subtle silver aluminum chassis. The keyboard is placed on a pristine desk environment with bright, natural light casting soft shadows. The visual style is highly modern, conveying premium build quality and clean design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBY54LQ3B1FROy4R2jMgmWJw7zXn2SsyzY23gdgI7OpROSjB1Cz-hNBIzPJS6jR2BcvEgvP12TMGsV_yvNiKZ96T2nIuYvwpPK8gxe1Flg53e9gkZcCcCyFZZbt52ivipZajRC-yhOIUsDP76kxoSa1JxweTTKo3V2YOE3jHNieA-ezAwnSW1zpgppYyVz766-gWm9IL57zEf72drdHbMVqLYCzkl_zTz1wMv450euyMOLbkimQvYqe5oNbgzoUphDRK-Adtc41sw"/>
+</div>
+<div class="flex-grow flex flex-col justify-between h-full">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Aura Mechanical Keyboard</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-stack-xs">Ice White • Tactile Switches</p>
+</div>
+<div class="flex items-center justify-between w-full mt-stack-md sm:mt-0">
+<span class="font-headline-sm text-headline-sm text-primary">Rp 1.250.000</span>
+<div class="flex items-center gap-stack-sm border border-outline-variant rounded-lg p-1">
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:bg-surface-container rounded-md transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="remove">remove</span>
+</button>
+<span class="font-label-md text-label-md w-6 text-center">2</span>
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:bg-surface-container rounded-md transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</div>
+<button class="absolute top-4 right-4 sm:relative sm:top-0 sm:right-0 text-outline hover:text-error transition-colors p-2">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+<!-- Order Summary -->
+<div class="w-full lg:w-1/3 bg-surface-container-lowest rounded-2xl border border-outline-variant p-gutter shadow-[0_4px_20px_rgba(15,23,42,0.05)] sticky top-[100px]">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-stack-lg">Order Summary</h2>
+<div class="flex flex-col gap-stack-md mb-stack-lg">
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md text-on-surface-variant">Subtotal (3 items)</span>
+<span class="font-body-md text-body-md text-on-surface">Rp 4.999.000</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md text-on-surface-variant">Shipping Estimate</span>
+<span class="font-body-md text-body-md text-on-surface">Rp 50.000</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md text-on-surface-variant">Tax</span>
+<span class="font-body-md text-body-md text-on-surface">Calculated at checkout</span>
+</div>
+</div>
+<div class="border-t border-outline-variant pt-stack-md mb-stack-lg">
+<div class="flex justify-between items-center">
+<span class="font-headline-sm text-headline-sm text-on-surface">Total</span>
+<span class="font-headline-sm text-headline-sm text-primary">Rp 5.049.000</span>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary font-label-md text-label-md py-4 rounded-xl hover:bg-primary-container transition-colors flex items-center justify-center gap-stack-sm shadow-sm">
+                    Proceed to Checkout
+                    <span class="material-symbols-outlined text-[20px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<div class="mt-stack-md flex items-center justify-center gap-stack-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]" data-icon="lock">lock</span>
+<span class="font-label-sm text-label-sm">Secure Checkout</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-stack-lg px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-gutter bg-surface-container-highest dark:bg-inverse-surface border-t border-outline-variant dark:border-outline mt-auto">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface dark:text-inverse-on-surface">PasarDigital</span>
+<div class="flex gap-gutter items-center">
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-surface-variant hover:underline transition-all" href="#">About Us</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-surface-variant hover:underline transition-all" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-surface-variant hover:underline transition-all" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-on-surface-variant hover:underline transition-all" href="#">Merchant FAQ</a>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant dark:text-on-surface-variant">© 2024 PasarDigital Marketplace. All rights reserved.</span>
+</footer>
+</body></html>

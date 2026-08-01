@@ -1,0 +1,39 @@
+// --- MESIN 3: Penerima Data Otomatis dari Website PasarDigital ---
+function doPost(e) {
+  try {
+    // Mengambil data yang dikirim oleh website
+    var data = JSON.parse(e.postData.contents);
+    
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    // Skrip akan langsung mencari tab bernama "penjualan bintang mas store"
+    var sheet = ss.getSheetByName("penjualan bintang mas store");
+    
+    // Jika tab belum ada, otomatis dibuatkan oleh skrip
+    if (!sheet) {
+      sheet = ss.insertSheet("penjualan bintang mas store");
+      sheet.appendRow(["Tanggal", "Order ID", "Nama Pelanggan", "Metode Pembayaran", "Total Penjualan", "Status"]);
+    }
+    
+    var tanggal = Utilities.formatDate(new Date(), "GMT+7", "yyyy-MM-dd HH:mm:ss");
+    
+    // Susun data untuk dimasukkan ke kolom Sheets
+    var rowData = [
+      tanggal,
+      data.orderId,
+      data.customerName || "Customer",
+      data.paymentMethod,
+      Number(data.totalPayment || 0), // Disimpan dalam bentuk angka murni agar bisa dirumus
+      data.status || "Lunas"
+    ];
+    
+    // Masukkan ke baris paling bawah
+    sheet.appendRow(rowData);
+    
+    return ContentService.createTextOutput(JSON.stringify({"status": "success", "message": "Data masuk Ko!"}))
+                         .setMimeType(ContentService.MimeType.JSON);
+                         
+  } catch (error) {
+    return ContentService.createTextOutput(JSON.stringify({"status": "error", "message": error.toString()}))
+                         .setMimeType(ContentService.MimeType.JSON);
+  }
+}

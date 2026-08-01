@@ -1,0 +1,12 @@
+=IFERROR(G2 - (VLOOKUP(REGEXEXTRACT(C2; "([A-Z]+ [0-9]+)"); 'DAFTAR_HARGA'!A:D; 4; FALSE) * D2); 0)
+(Simpan rumus ini baik-baik. Kalau suatu saat error atau kolom hilang, Koko tinggal copas ulang rumus ini di baris pertama transaksi).
+4. "Disaster Recovery Plan" (Apa yang dilakukan kalau Error?)
+Kalau sistem tiba-tiba "mogok" atau angka jadi tidak karuan, ikuti alur ini:
+
+Cek Sumber Data: Apakah email Shopee masih masuk ke email david perabot 88? Kalau tidak, cek tab Forwarding di settings Gmail.
+
+Cek Kolom Rumus: Apakah rumus di kolom Profit (Kolom I) masih ada? Seringkali kalau baris tidak sengaja terhapus, rumusnya ikut hilang. Copas ulang rumus dari Backup (poin 2).
+
+Cek DAFTAR_HARGA: Seringkali error terjadi karena nama produk atau kode baru masuk tapi belum diinput di DAFTAR_HARGA. Pastikan kodenya (misal: HNT 641) sudah ada di sheet DAFTAR_HARGA kolom A.
+
+Restore: Kalau semuanya buntu, hapus sheet yang error, lalu "Copy" sheet yang sama dari file Backup Fisik (poin 1) tadi.

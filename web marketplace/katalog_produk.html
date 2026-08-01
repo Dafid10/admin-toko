@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PasarDigital - Product Catalog</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#444653",
+                        "on-secondary-container": "#00714d",
+                        "on-surface": "#191c1e",
+                        "surface-variant": "#e0e3e5",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "primary-container": "#1e40af",
+                        "on-primary-container": "#a8b8ff",
+                        "secondary-fixed-dim": "#4edea3",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#ffddb8",
+                        "secondary-fixed": "#6ffbbe",
+                        "inverse-primary": "#b8c4ff",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "surface-bright": "#f7f9fb",
+                        "on-background": "#191c1e",
+                        "inverse-on-surface": "#eff1f3",
+                        "error-container": "#ffdad6",
+                        "secondary": "#006c49",
+                        "on-secondary-fixed-variant": "#005236",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "surface-container": "#eceef0",
+                        "surface-tint": "#3755c3",
+                        "on-primary-fixed-variant": "#173bab",
+                        "inverse-surface": "#2d3133",
+                        "outline": "#757684",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "on-tertiary-fixed": "#2a1700",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#002113",
+                        "primary": "#00288e",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#4c2e00",
+                        "surface-dim": "#d8dadc",
+                        "surface-container-highest": "#e0e3e5",
+                        "surface-container-low": "#f2f4f6",
+                        "surface": "#f7f9fb",
+                        "on-tertiary-container": "#ffa929",
+                        "tertiary-container": "#6b4200",
+                        "surface-container-high": "#e6e8ea",
+                        "primary-fixed": "#dde1ff",
+                        "on-primary-fixed": "#001453",
+                        "secondary-container": "#6cf8bb",
+                        "outline-variant": "#c4c5d5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "gutter": "24px",
+                        "stack-md": "16px",
+                        "margin-mobile": "16px",
+                        "stack-xs": "4px",
+                        "container-max": "1280px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[style*="'FILL' 1"] {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .product-card-shadow {
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+            transition: box-shadow 0.3s ease;
+        }
+        .product-card-shadow:hover {
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
+        }
+        
+        .btn-glow {
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="sticky top-0 w-full z-50 flex justify-between items-center px-margin-desktop h-20 bg-surface-container-lowest shadow-sm">
+<div class="flex items-center gap-gutter">
+<a class="font-headline-md text-headline-md font-black text-primary" href="#">PasarDigital</a>
+<nav class="hidden md:flex gap-6 ml-8">
+<a class="font-label-md text-label-md text-primary border-b-2 border-primary pb-1 opacity-80 transition-opacity" href="#">Categories</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Flash Sale</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Merchant Central</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Help</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<!-- Search Bar (on_right) -->
+<div class="relative hidden lg:block w-64 xl:w-80">
+<span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full font-body-sm text-body-sm text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="Search products..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button aria-label="shopping_cart" class="p-2 rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant hover:text-primary relative">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button aria-label="notifications" class="p-2 rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant hover:text-primary relative">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="ml-2 w-8 h-8 rounded-full overflow-hidden border border-outline-variant focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A clean, professional portrait of a modern digital marketplace user, well-lit studio lighting against a neutral light grey background, showcasing a confident and approachable expression." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCx8A4Rm5Jb2ZpJ9GcsrC1VYGacQiJ6jaRhW735gJ3sKj9PBtcISFpgivbGBo9NIyC6Bspq2ulSF7ZbFmY5-jy9mhI3lkKlO4riWbI45uAK5_2CSP_jvzC0VQm2FpVklTn5p1tW_N_1XF4G10T0kdFrr1ECtjq8RE5MwXLeHCUJPle1uDogm7IfZxadAVkIE9777rZg9ZcPNYd5EYmOlbMOFfGbWUrgkrmOAnsbedCYhkmW2rvcN4yWoa89lg8E4gOVRC507FpLzw"/>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-grow flex w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg gap-gutter">
+<!-- Left Sidebar Filter -->
+<aside class="hidden lg:flex flex-col w-64 shrink-0 pr-6 border-r border-outline-variant gap-stack-lg">
+<!-- Categories Filter -->
+<div class="flex flex-col gap-stack-sm">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Categories</h3>
+<ul class="flex flex-col gap-2">
+<li>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="w-4 h-4 rounded text-primary border-outline-variant focus:ring-primary" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface font-semibold">All Categories</span>
+</label>
+</li>
+<li>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-4 h-4 rounded text-primary border-outline-variant focus:ring-primary" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary transition-colors">Electronics (245)</span>
+</label>
+</li>
+<li>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-4 h-4 rounded text-primary border-outline-variant focus:ring-primary" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary transition-colors">Fashion (189)</span>
+</label>
+</li>
+<li>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-4 h-4 rounded text-primary border-outline-variant focus:ring-primary" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary transition-colors">Home &amp; Living (120)</span>
+</label>
+</li>
+<li>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-4 h-4 rounded text-primary border-outline-variant focus:ring-primary" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary transition-colors">Groceries (340)</span>
+</label>
+</li>
+</ul>
+</div>
+<hr class="border-outline-variant"/>
+<!-- Price Filter -->
+<div class="flex flex-col gap-stack-sm">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Price Range</h3>
+<div class="flex items-center gap-2 mb-4">
+<div class="relative w-full">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 font-body-sm text-body-sm text-on-surface-variant">Rp</span>
+<input class="w-full pl-8 pr-2 py-2 border border-outline-variant rounded-lg font-body-sm text-body-sm focus:border-primary focus:ring-1 focus:ring-primary transition-all bg-surface-container-lowest" placeholder="Min" type="number"/>
+</div>
+<span class="text-on-surface-variant">-</span>
+<div class="relative w-full">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 font-body-sm text-body-sm text-on-surface-variant">Rp</span>
+<input class="w-full pl-8 pr-2 py-2 border border-outline-variant rounded-lg font-body-sm text-body-sm focus:border-primary focus:ring-1 focus:ring-primary transition-all bg-surface-container-lowest" placeholder="Max" type="number"/>
+</div>
+</div>
+<button class="w-full py-2 bg-surface-container-low hover:bg-surface-variant text-on-surface font-label-md text-label-md rounded-lg transition-colors border border-outline-variant">
+                    Apply Filter
+                </button>
+</div>
+<hr class="border-outline-variant"/>
+<!-- Rating Filter -->
+<div class="flex flex-col gap-stack-sm">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Rating</h3>
+<ul class="flex flex-col gap-2">
+<li>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-4 h-4 text-primary border-outline-variant focus:ring-primary" name="rating" type="radio"/>
+<div class="flex items-center text-[#F59E0B]">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</label>
+</li>
+<li>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-4 h-4 text-primary border-outline-variant focus:ring-primary" name="rating" type="radio"/>
+<div class="flex items-center text-[#F59E0B]">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-outline-variant">star</span>
+<span class="ml-2 font-body-sm text-body-sm text-on-surface-variant">&amp; Up</span>
+</div>
+</label>
+</li>
+</ul>
+</div>
+</aside>
+<!-- Product Grid Area -->
+<div class="flex-grow flex flex-col gap-stack-lg min-w-0">
+<!-- Active Filters & Sort -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-surface-container-lowest p-4 rounded-xl border border-outline-variant shadow-sm">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Active Filters:</span>
+<span class="inline-flex items-center gap-1 px-3 py-1 bg-surface-container-high rounded-full font-label-sm text-label-sm text-on-surface">
+                        Electronics
+                        <button class="material-symbols-outlined text-[14px] hover:text-error transition-colors">close</button>
+</span>
+<button class="font-label-sm text-label-sm text-primary hover:underline ml-2">Clear All</button>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Sort by:</span>
+<select class="border-outline-variant rounded-lg font-body-sm text-body-sm text-on-surface py-1.5 pl-3 pr-8 bg-surface-container-lowest focus:border-primary focus:ring-1 focus:ring-primary transition-all">
+<option>Most Popular</option>
+<option>Newest Arrivals</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+</select>
+</div>
+</div>
+<!-- Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter">
+<!-- Product Card 1 -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant product-card-shadow flex flex-col overflow-hidden group">
+<div class="relative w-full pt-[100%] bg-surface-container-low overflow-hidden">
+<img alt="Smart Watch Pro" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" data-alt="High-end professional photography of a modern smart watch with a sleek black metallic finish and vibrant digital display, resting on a clean white glossy surface with subtle reflections. The lighting is crisp and studio-quality, emphasizing the premium nature of the electronic product." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHa3KUV9Z5M_c-N9yCCdg5l-SFOiIAAGnhD-r3DuQgql0f32exxHGWTf8s6kHkpbA87N_n_Ggi4GtAxPW-XkrpsmewuzKv_VFOJIKI4Bk75e9rvUb3vXMMjE-aa7Cfn6zaADxXenB-Zh0Aj1qrT8qzlENsSokVDEO3ACaTRSPJBXOLd2U_0aWohOntu2YgeNF9a7wbv7M9p1H0EvXYhCBo5o_s6cItspwIF68oZJpzAGv-D3HoMVnP6vIfTNipbEv5lIY5i47NmA"/>
+<div class="absolute top-3 left-3 flex flex-col gap-2">
+<span class="px-2 py-1 bg-secondary text-on-secondary font-label-sm text-label-sm rounded-md shadow-sm">In Stock</span>
+</div>
+<button class="absolute top-3 right-3 p-2 bg-surface-container-lowest/80 backdrop-blur-sm rounded-full text-on-surface-variant hover:text-error transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="p-4 flex flex-col flex-grow gap-2">
+<div class="flex items-center gap-1 text-[#F59E0B] mb-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">4.8 (124)</span>
+</div>
+<h4 class="font-label-md text-label-md text-on-surface line-clamp-2 leading-snug">Nexus Smart Watch Series 7 with Health Tracking</h4>
+<div class="mt-auto pt-3 flex flex-col gap-3">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">Rp 2.499.000</span>
+</div>
+<button class="w-full py-2.5 bg-primary text-on-primary font-label-md text-label-md rounded-lg btn-glow hover:bg-on-primary-fixed-variant transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                                Add to Cart
+                            </button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant product-card-shadow flex flex-col overflow-hidden group">
+<div class="relative w-full pt-[100%] bg-surface-container-low overflow-hidden">
+<img alt="Wireless Headphones" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" data-alt="Studio shot of premium noise-canceling wireless over-ear headphones in an elegant matte grey color. The headphones are beautifully lit against a pure white background, highlighting their sleek modern design, plush ear cushions, and minimalist aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXph2mo9R1eCpvDJD9OlsYQULO7eC-bCsiN5tyPG01SJIOcdAj4x_eEm3BvZN46KY8PszNQccKt_hlYlfC9WqOakuh-5gOh-DDOyhiPJvq7ZnmSJrN3KbOv4dLJkfN14GdbhqOw3asWXOJLHEVB8Lrn8ggO0enAJgd6jk0vFtBGDklKNiDMg9mSMohchb5jT1_BoK4XqSUXeV2EGZRQxx_cof4dSiHhcDyf407iQJdLmGbkqInI0UYQDinZ2nzm_iVMFP1VtK7iQ"/>
+<div class="absolute top-3 left-3 flex flex-col gap-2">
+<span class="px-2 py-1 bg-secondary text-on-secondary font-label-sm text-label-sm rounded-md shadow-sm">In Stock</span>
+<span class="px-2 py-1 bg-error text-on-error font-label-sm text-label-sm rounded-md shadow-sm">-15%</span>
+</div>
+<button class="absolute top-3 right-3 p-2 bg-surface-container-lowest/80 backdrop-blur-sm rounded-full text-on-surface-variant hover:text-error transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="p-4 flex flex-col flex-grow gap-2">
+<div class="flex items-center gap-1 text-[#F59E0B] mb-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">4.9 (312)</span>
+</div>
+<h4 class="font-label-md text-label-md text-on-surface line-clamp-2 leading-snug">Auraudio Pro Wireless Noise Cancelling Headphones</h4>
+<div class="mt-auto pt-3 flex flex-col gap-3">
+<div class="flex items-baseline gap-2 flex-wrap">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">Rp 1.870.000</span>
+<span class="font-body-sm text-body-sm text-outline line-through">Rp 2.200.000</span>
+</div>
+<button class="w-full py-2.5 bg-primary text-on-primary font-label-md text-label-md rounded-lg btn-glow hover:bg-on-primary-fixed-variant transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                                Add to Cart
+                            </button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 (Low Stock) -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant product-card-shadow flex flex-col overflow-hidden group">
+<div class="relative w-full pt-[100%] bg-surface-container-low overflow-hidden">
+<img alt="Ultra-thin Laptop" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" data-alt="High-resolution flat lay photograph of an ultra-thin silver laptop slightly open on a pristine white desk surface. Soft, diffused lighting enhances the metallic texture and modern, professional look of the computing device, conveying a high-tech and sleek vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyi_toxUDFJ2LIbOqvhPuiVFr96Ts6cThRzZFvva8GOqDOb4umLLOPiyMZ0BJAvwp8_awGbzAbAsnko6f7V7RePphzOSCeJZv_VlNrecyw2NrERDZd1zX2vSBw2JPpfo7NBfGqh3OSd5sEqmvUzTDwA0-Ln7Lr9xd_KoZqq9jWmMHcZ3HIJgrViO7h9I4_U7xUmg4WgaQhnk0vLFQVgZeLIWnVMowFu7uQ797uM-sVLn-FSM2D9ffdUq8TEdtQ1SnWQR_7oN0bmA"/>
+<div class="absolute top-3 left-3 flex flex-col gap-2">
+<span class="px-2 py-1 bg-surface-variant text-on-surface font-label-sm text-label-sm rounded-md shadow-sm border border-outline-variant">Low Stock: 3</span>
+</div>
+<button class="absolute top-3 right-3 p-2 bg-surface-container-lowest/80 backdrop-blur-sm rounded-full text-on-surface-variant hover:text-error transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="p-4 flex flex-col flex-grow gap-2">
+<div class="flex items-center gap-1 text-[#F59E0B] mb-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">4.7 (89)</span>
+</div>
+<h4 class="font-label-md text-label-md text-on-surface line-clamp-2 leading-snug">ZenithBook 14" Ultra Slim Core i7 16GB 512GB</h4>
+<div class="mt-auto pt-3 flex flex-col gap-3">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">Rp 14.500.000</span>
+</div>
+<button class="w-full py-2.5 bg-primary text-on-primary font-label-md text-label-md rounded-lg btn-glow hover:bg-on-primary-fixed-variant transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                                Add to Cart
+                            </button>
+</div>
+</div>
+</div>
+<!-- Product Card 4 (Out of Stock) -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant product-card-shadow flex flex-col overflow-hidden group">
+<div class="relative w-full pt-[100%] bg-surface-container-low overflow-hidden">
+<div class="absolute inset-0 bg-surface-container-lowest/50 z-10 pointer-events-none"></div>
+<img alt="Mechanical Keyboard" class="absolute inset-0 w-full h-full object-cover grayscale opacity-70" data-alt="A beautifully composed shot of a modern minimalist mechanical keyboard with white and grey keycaps on a clean desk mat. Professional lighting emphasizes the tactile nature of the keys. The image is slightly muted to reflect an unavailable status while maintaining visual quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIs8oIecsAwJN22GqGWQ8Ldc4PXXZBVv-o2VjVWlgTVSMwr5wEmhoKXkzXya1PlbTzlkT5OGteqnlFabIM4kZDkg1RTWwx_4K8lZelv8IUFqjl8cykFPufzWnBMIBUHtPHLonmW4FK4bD6diGzUqb0z1LsPfmGbQWpEgyYaup4v3aHIix3yUi1yCTFlyLP6nNdKYJHfK_xQHVdBWOmXksYHMIdSs_UT2gS4MJ-AWmndIuIrfmFApVltxQBKiSYS_cmYVpajyqXWA"/>
+<div class="absolute top-3 left-3 flex flex-col gap-2 z-20">
+<span class="px-2 py-1 bg-surface-container-highest text-outline font-label-sm text-label-sm rounded-md shadow-sm">Out of Stock</span>
+</div>
+<button class="absolute top-3 right-3 p-2 bg-surface-container-lowest/80 backdrop-blur-sm rounded-full text-on-surface-variant hover:text-error transition-colors shadow-sm z-20">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="p-4 flex flex-col flex-grow gap-2 relative">
+<div class="flex items-center gap-1 text-outline-variant mb-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm">4.5 (45)</span>
+</div>
+<h4 class="font-label-md text-label-md text-outline line-clamp-2 leading-snug">KeyPro Mechanical Keyboard Brown Switch</h4>
+<div class="mt-auto pt-3 flex flex-col gap-3">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-sm text-headline-sm font-bold text-outline">Rp 850.000</span>
+</div>
+<button class="w-full py-2.5 bg-surface-container-high text-outline font-label-md text-label-md rounded-lg cursor-not-allowed flex items-center justify-center gap-2" disabled="">
+                                Notify Me
+                            </button>
+</div>
+</div>
+</div>
+<!-- Product Card 5 -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant product-card-shadow flex flex-col overflow-hidden group">
+<div class="relative w-full pt-[100%] bg-surface-container-low overflow-hidden">
+<img alt="Tablet Device" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" data-alt="A sleek modern tablet device standing upright with an interactive stylus pen leaning against it. Displaying a colorful abstract digital art piece on screen. The setting is clean, bright, and professional, characteristic of high-end consumer electronics photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDt2g-drLCM45G_143csHKwL0JDqzT7cmvLcJ5Yf5BGYxT4JqpM88hBCGlAWubTEzmCkZE99wNeMrAztPPlS1dx0xI_9ldbZKP5XBqIXpGfjM-IBqcJwOgyB9bPeaziQHVNPwfFptksZNjUk9jv_-T2BwDCuXzmGCy6wVlSrRvl2aXMgMoy77Tc4xDmt5238pe1cFbi46foxvwQgdVAZCBug7Tb9IMAzP42QW3YlCrKLiv4ftMsIm4RkylOv9ItgerxQ_SUmRvvkg"/>
+<div class="absolute top-3 left-3 flex flex-col gap-2">
+<span class="px-2 py-1 bg-secondary text-on-secondary font-label-sm text-label-sm rounded-md shadow-sm">In Stock</span>
+</div>
+<button class="absolute top-3 right-3 p-2 bg-surface-container-lowest/80 backdrop-blur-sm rounded-full text-on-surface-variant hover:text-error transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="p-4 flex flex-col flex-grow gap-2">
+<div class="flex items-center gap-1 text-[#F59E0B] mb-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">4.6 (210)</span>
+</div>
+<h4 class="font-label-md text-label-md text-on-surface line-clamp-2 leading-snug">VividPad 11" 128GB with Stylus Support</h4>
+<div class="mt-auto pt-3 flex flex-col gap-3">
+<div class="flex items-baseline gap-2">
+<span class="font-headline-sm text-headline-sm font-bold text-primary">Rp 6.200.000</span>
+</div>
+<button class="w-full py-2.5 bg-primary text-on-primary font-label-md text-label-md rounded-lg btn-glow hover:bg-on-primary-fixed-variant transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                                Add to Cart
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="flex justify-center items-center gap-2 mt-8 pt-6 border-t border-outline-variant">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container-low transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-on-primary font-label-md text-label-md shadow-sm">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-md text-label-md">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-md text-label-md">3</button>
+<span class="text-on-surface-variant px-2">...</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container-low transition-colors font-label-md text-label-md">12</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-stack-lg px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-gutter bg-surface-container-highest border-t border-outline-variant mt-auto">
+<div class="flex flex-col gap-2 items-center md:items-start">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">PasarDigital</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">© 2024 PasarDigital Marketplace. All rights reserved.</span>
+</div>
+<nav class="flex flex-wrap justify-center gap-6">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:underline transition-all" href="#">About Us</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:underline transition-all" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:underline transition-all" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:underline transition-all" href="#">Merchant FAQ</a>
+</nav>
+</footer>
+</body></html>

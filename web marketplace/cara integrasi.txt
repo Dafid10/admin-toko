@@ -1,0 +1,13 @@
+3 langkah supaya integrasinya hidup:
+
+Tempel ke Apps Script — buka spreadsheet Anda → Extensions → Apps Script → buat file baru namanya WebIntegration → paste isi WebIntegration.gs. File Code.gs Anda tidak disentuh sama sekali, ini murni tambahan.
+Ganti kunci rahasia di baris atas file itu (WEB_API_KEY = "..."), lalu Deploy → New deployment → Web app (Execute as: Me, Who has access: Anyone) → salin URL yang berakhiran /exec.
+Isi .env di website dengan URL itu + kunci yang sama persis (GOOGLE_SCRIPT_URL, GOOGLE_SCRIPT_KEY) — detail lengkap ada di README.md Bagian 4.
+
+Cara kerjanya setelah aktif:
+
+Buka /admin/produk → ada tombol "Impor Produk Baru dari Sheet" — ini otomatis buat produk (nonaktif dulu) untuk tiap kode di MASTER_STOCK yang belum ada di website. Anda tinggal isi harga & foto, lalu klik Aktifkan.
+Tombol "Sinkron Stok Sekarang" menarik angka stok terbaru dari sheet kapan saja. README juga kasih contoh cron job kalau mau otomatis tiap beberapa menit.
+Setiap pesanan website yang lunas otomatis tercatat ke sheet baru PENJUALAN_WEBSITE dan mengurangi MASTER_STOCK — persis seperti alur Shopee Anda, termasuk tetap memicu notif Telegram stok kritis yang sudah ada.
+
+Kalau nanti saat deploy ada error (biasanya di step "Authorize access" atau salah paste URL/key), kirim pesan errornya ke saya, saya bantu debug.
