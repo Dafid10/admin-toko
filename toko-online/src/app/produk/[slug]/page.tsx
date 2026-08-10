@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma";
+import { useLanguage } from "@/context/LanguageContext";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import AddToCartButton from "./AddToCartButton";
+import ProductGallery from "./ProductGallery";
 
 export const dynamic = "force-dynamic";
 
@@ -10,9 +11,9 @@ export default async function ProductDetailPage({
 }: {
   params: { slug: string };
 }) {
-  const product = await prisma.product.findUnique({
+  const product: any = await prisma.product.findUnique({
     where: { slug: params.slug },
-    include: { category: true },
+    include: { category: true, media: { orderBy: { order: "asc" } } },
   });
 
   if (!product || !product.isActive) notFound();
@@ -25,15 +26,8 @@ export default async function ProductDetailPage({
 
   return (
     <div className="grid md:grid-cols-2 gap-gutter">
-      <div className="relative w-full pt-[100%] bg-surface-low rounded-2xl overflow-hidden border border-outline-variant">
-        {product.imageUrl ? (
-          <Image src={product.imageUrl} alt={product.name} fill className="absolute inset-0 object-cover" />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-ink-muted/50">
-            Tidak ada foto
-          </div>
-        )}
-      </div>
+      {/* Media Gallery */}
+      <ProductGallery media={product.media} productName={product.name} />
 
       <div>
         <span className="text-label-sm text-ink-muted uppercase tracking-wide">
@@ -53,6 +47,20 @@ export default async function ProductDetailPage({
         <p className="text-body-md text-ink-muted leading-relaxed whitespace-pre-line mb-stack-lg">
           {product.description}
         </p>
+
+        {/* Video Sections */}
+        {product.media && product.media.filter((m: any) => m.type === "VIDEO").length > 0 && (
+          <div className="mb-stack-lg">
+            <h3 className="text-label-md font-bold mb-2">Video Produk</h3>
+            <div className="space-y-4">
+              {product.media.filter((m: any) => m.type === "VIDEO").map((v: any, i: number) => (
+                <div key={i} className="aspect-video w-full rounded-xl overflow-hidden bg-black">
+                  <video src={v.url} controls className="w-full h-full" />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         <AddToCartButton
           product={{

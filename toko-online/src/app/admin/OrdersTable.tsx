@@ -10,6 +10,8 @@ type Order = {
   status: string;
   totalAmount: number;
   createdAt: string;
+  trackingNumber?: string | null;
+  expeditionName?: string | null;
   items: { productName: string; quantity: number }[];
 };
 
@@ -41,6 +43,7 @@ export default function OrdersTable() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string>("SEMUA");
+  const [showResiModal, setShowResiModal] = useState<{ id: string, expedition: string, resi: string } | null>(null);
 
   async function load() {
     const res = await fetch("/api/admin/orders");
@@ -54,11 +57,11 @@ export default function OrdersTable() {
     return () => clearInterval(interval);
   }, []);
 
-  async function updateStatus(orderId: string, status: string) {
+  async function updateStatus(orderId: string, status: string, trackingNumber?: string, expeditionName?: string) {
     await fetch("/api/admin/orders", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ orderId, status }),
+      body: JSON.stringify({ orderId, status, trackingNumber, expeditionName }),
     });
     load();
   }
@@ -145,21 +148,26 @@ export default function OrdersTable() {
                     <span className={statusChipClass(o.status)}>{STATUS_LABEL[o.status]}</span>
                   </td>
                   <td className="p-4">
-                    {o.status === "LUNAS" && (
-                      <button onClick={() => updateStatus(o.id, "DIPROSES")} className="text-primary text-label-sm hover:underline">
-                        Proses Pesanan
-                      </button>
-                    )}
-                    {o.status === "DIPROSES" && (
-                      <button onClick={() => updateStatus(o.id, "DIKIRIM")} className="text-primary text-label-sm hover:underline">
-                        Tandai Dikirim
-                      </button>
-                    )}
-                    {o.status === "DIKIRIM" && (
-                      <button onClick={() => updateStatus(o.id, "SELESAI")} className="text-primary text-label-sm hover:underline">
-                        Tandai Selesai
-                      </button>
-                    )}
+                    <div className="flex flex-col gap-1">
+                        {o.status === "LUNAS" && (
+                        <button onClick={() => updateStatus(o.id, "DIPROSES")} className="text-primary text-label-sm hover:underline text-left">
+                            Proses Pesanan
+                        </button>
+                        )}
+                        {o.status === "DIPROSES" && (
+                        <button onClick={() => setShowResiModal({ id: o.id, expedition: o.expeditionName || '', resi: o.trackingNumber || '' })} className="text-primary text-label-sm hover:underline text-left">
+                            Tandai Dikirim (Input Resi)
+                        </button>
+                        )}
+                        {o.status === "DIKIRIM" && (
+                        <>
+                            <div className="text-[10px] text-ink-muted">Resi: {o.trackingNumber || '-'}</div>
+                            <button onClick={() => updateStatus(o.id, "SELESAI")} className="text-primary text-label-sm hover:underline text-left">
+                                Tandai Selesai
+                            </button>
+                        </>
+                        )}
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -174,6 +182,41 @@ export default function OrdersTable() {
           </table>
         </div>
       </div>
+
+      {showResiModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+              <div className="card w-full max-w-sm p-6 bg-white shadow-2xl">
+                  <h3 className="text-lg font-bold mb-4">Input Informasi Pengiriman</h3>
+                  <div className="space-y-4">
+                      <div>
+                          <label className="text-label-sm block mb-1">Nama Ekspedisi</label>
+                          <input 
+                            placeholder="Contoh: J&T Cargo / Manual" 
+                            value={showResiModal.expedition} 
+                            onChange={(e) => setShowResiModal({...showResiModal, expedition: e.target.value})}
+                            className="w-full border rounded-lg px-3 py-2"
+                          />
+                      </div>
+                      <div>
+                          <label className="text-label-sm block mb-1">Nomor Resi / Nota</label>
+                          <input 
+                            placeholder="Masukkan nomor resi" 
+                            value={showResiModal.resi} 
+                            onChange={(e) => setShowResiModal({...showResiModal, resi: e.target.value})}
+                            className="w-full border rounded-lg px-3 py-2"
+                          />
+                      </div>
+                      <div className="flex gap-2 pt-2">
+                          <button onClick={() => setShowResiModal(null)} className="btn-secondary flex-1">Batal</button>
+                          <button onClick={() => {
+                              updateStatus(showResiModal.id, "DIKIRIM", showResiModal.resi, showResiModal.expedition);
+                              setShowResiModal(null);
+                          }} className="btn-primary flex-1">Simpan & Kirim</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      )}
     </div>
   );
 }
