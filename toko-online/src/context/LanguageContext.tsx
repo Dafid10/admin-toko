@@ -1,6 +1,8 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import idDict from "@/locales/id.json";
+import enDict from "@/locales/en.json";
 
 type Locale = "id" | "en";
 
@@ -13,59 +15,44 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 const dictionaries: Record<Locale, Record<string, string>> = {
-  id: {
-    "nav.catalog": "Katalog",
-    "nav.merchant_center": "Merchant Center",
-    "footer.copyright": "© {year} PasarDigital Marketplace. Pembayaran aman via QRIS.",
-    "footer.about": "Tentang Kami",
-    "footer.terms": "Syarat & Ketentuan",
-    "footer.privacy": "Kebijakan Privasi",
-    "footer.help": "Bantuan Merchant",
-    "cart.title": "Keranjang Belanja",
-    "cart.empty": "Keranjang Anda kosong",
-    "product.description": "Deskripsi Produk",
-    "product.add_to_cart": "Tambah ke Keranjang",
-    "product.buy_now": "Beli Sekarang",
-    "product.stock": "Stok",
-    "common.back": "Kembali",
-    "common.save": "Simpan",
-    "common.cancel": "Batal",
-    "search.placeholder": "Cari produk...",
-  },
-  en: {
-    "nav.catalog": "Catalog",
-    "nav.merchant_center": "Merchant Center",
-    "footer.copyright": "© {year} PasarDigital Marketplace. Secure payment via QRIS.",
-    "footer.about": "About Us",
-    "footer.terms": "Terms & Conditions",
-    "footer.privacy": "Privacy Policy",
-    "footer.help": "Merchant Help",
-    "cart.title": "Shopping Cart",
-    "cart.empty": "Your cart is empty",
-    "product.description": "Product Description",
-    "product.add_to_cart": "Add to Cart",
-    "product.buy_now": "Buy Now",
-    "product.stock": "Stock",
-    "common.back": "Back",
-    "common.save": "Save",
-    "common.cancel": "Cancel",
-    "search.placeholder": "Search products...",
-  },
+  id: idDict,
+  en: enDict,
 };
+
+/**
+ * Fungsi deteksi bahasa otomatis.
+ * Urutan prioritas:
+ *   1. localStorage (pilihan yang pernah dipilih pengguna)
+ *   2. navigator.language (bahasa browser)
+ *   3. fallback ke "id"
+ */
+function detectLanguage(): Locale {
+  // 1. Cek pilihan yang tersimpan di localStorage
+  if (typeof window !== "undefined") {
+    const savedLocale = localStorage.getItem("locale");
+    if (savedLocale === "id" || savedLocale === "en") {
+      return savedLocale;
+    }
+
+    // 2. Cek bahasa browser
+    const browserLang = navigator.language?.split("-")[0];
+    if (browserLang === "en") {
+      return "en";
+    }
+  }
+
+  // 3. Fallback ke bahasa Indonesia
+  return "id";
+}
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [locale, setLocale] = useState<Locale>("id");
 
+  // Deteksi bahasa sekali saat mount (client-side only)
   useEffect(() => {
-    const savedLocale = localStorage.getItem("locale") as Locale;
-    if (savedLocale && (savedLocale === "id" || savedLocale === "en")) {
-      setLocale(savedLocale);
-    } else {
-        const browserLang = navigator.language.split("-")[0];
-        if (browserLang === "en") {
-            setLocale("en");
-        }
-    }
+    const detected = detectLanguage();
+    setLocale(detected);
+    document.documentElement.lang = detected;
   }, []);
 
   const handleSetLocale = (newLocale: Locale) => {

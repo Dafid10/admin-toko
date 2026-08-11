@@ -1,0 +1,21 @@
+{
+  "welcome": "Welcome",
+  "cart": "Cart",
+  "nav.catalog": "Catalog",
+  "nav.merchant_center": "Merchant Center",
+  "footer.copyright": "© {year} PasarDigital Marketplace. Secure payment via QRIS.",
+  "footer.about": "About Us",
+  "footer.terms": "Terms & Conditions",
+  "footer.privacy": "Privacy Policy",
+  "footer.help": "Merchant Help",
+  "cart.title": "Shopping Cart",
+  "cart.empty": "Your cart is empty",
+  "product.description": "Product Description",
+  "product.add_to_cart": "Add to Cart",
+  "product.buy_now": "Buy Now",
+  "product.stock": "Stock",
+  "common.back": "Back",
+  "common.save": "Save",
+  "common.cancel": "Cancel",
+  "search.placeholder": "Search products..."
+}

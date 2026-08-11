@@ -1,0 +1,21 @@
+{
+  "welcome": "Selamat datang",
+  "cart": "Keranjang",
+  "nav.catalog": "Katalog",
+  "nav.merchant_center": "Merchant Center",
+  "footer.copyright": "© {year} PasarDigital Marketplace. Pembayaran aman via QRIS.",
+  "footer.about": "Tentang Kami",
+  "footer.terms": "Syarat & Ketentuan",
+  "footer.privacy": "Kebijakan Privasi",
+  "footer.help": "Bantuan Merchant",
+  "cart.title": "Keranjang Belanja",
+  "cart.empty": "Keranjang Anda kosong",
+  "product.description": "Deskripsi Produk",
+  "product.add_to_cart": "Tambah ke Keranjang",
+  "product.buy_now": "Beli Sekarang",
+  "product.stock": "Stok",
+  "common.back": "Kembali",
+  "common.save": "Simpan",
+  "common.cancel": "Batal",
+  "search.placeholder": "Cari produk..."
+}

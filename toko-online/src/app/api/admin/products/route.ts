@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
       indentDays: body.indentDays ? Number(body.indentDays) : null,
       imageUrl: body.imageUrl || null,
       categoryId: body.categoryId,
-      variants: body.variants ? {
+      variants: body.variants && body.variants.length > 0 ? {
         create: body.variants.map((v: any) => ({
           name: v.name,
           price: v.price ? Number(v.price) : null,
@@ -90,7 +90,7 @@ export async function POST(req: NextRequest) {
           sku: v.sku || null,
         }))
       } : undefined,
-      wholesale: body.wholesale ? {
+      wholesale: body.wholesale && body.wholesale.length > 0 ? {
         create: body.wholesale.map((w: any) => ({
           minQuantity: Number(w.minQuantity),
           price: Number(w.price),
