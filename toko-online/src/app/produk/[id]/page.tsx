@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@supabase/supabase-js";
+import { useCart } from "@/context/CartContext";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
@@ -11,6 +12,9 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export default function DetailProduk() {
   const params = useParams();
+  const router = useRouter();
+  const { addItem } = useCart();
+  
   const id = Array.isArray(params?.id) ? params.id[0] : params?.id;
   
   const [product, setProduct] = useState<any>(null);
@@ -67,7 +71,33 @@ export default function DetailProduk() {
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev === mediaList.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) => (prev === mediaList.length - 1 ? 0 : prev - 1));
+  };
+
+  // Fungsi saat tombol "Tambah ke Keranjang" diklik
+  const handleAddToCart = () => {
+    addItem({
+      productId: product.id,
+      name: product.name || product.nama_produk,
+      price: Number(product.price || product.harga || 0),
+      imageUrl: currentUrl,
+      stock: product.stock !== undefined ? product.stock : (product.stok !== undefined ? product.stok : 100),
+      quantity: 1,
+    });
+    alert("Produk berhasil ditambahkan ke keranjang!");
+  };
+
+  // Fungsi saat tombol "Beli Sekarang" diklik
+  const handleBuyNow = () => {
+    addItem({
+      productId: product.id,
+      name: product.name || product.nama_produk,
+      price: Number(product.price || product.harga || 0),
+      imageUrl: currentUrl,
+      stock: product.stock !== undefined ? product.stock : (product.stok !== undefined ? product.stok : 100),
+      quantity: 1,
+    });
+    router.push("/keranjang");
   };
 
   return (
@@ -166,10 +196,16 @@ export default function DetailProduk() {
             </div>
 
             <div className="pt-4 border-t border-gray-100 flex gap-3">
-              <button className="flex-1 bg-gray-100 text-gray-700 py-3 rounded-xl font-medium hover:bg-gray-200 transition text-sm">
+              <button 
+                onClick={handleAddToCart}
+                className="flex-1 bg-gray-100 text-gray-700 py-3 rounded-xl font-medium hover:bg-gray-200 transition text-sm"
+              >
                 Tambah ke Keranjang
               </button>
-              <button className="flex-1 bg-green-600 text-white py-3 rounded-xl font-medium hover:bg-green-700 transition text-sm">
+              <button 
+                onClick={handleBuyNow}
+                className="flex-1 bg-green-600 text-white py-3 rounded-xl font-medium hover:bg-green-700 transition text-sm"
+              >
                 Beli Sekarang
               </button>
             </div>

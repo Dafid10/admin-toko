@@ -53,7 +53,13 @@ export default function CheckoutClient() {
   const { items, totalPrice, clearCart } = useCart();
   const router = useRouter();
 
-  const [form, setForm] = useState({ customerName: "", customerPhone: "", customerAddress: "" });
+  const [form, setForm] = useState({ 
+    customerName: "", 
+    customerPhone: "", 
+    customerAddress: "",
+    courier: "" 
+  });
+  const [shippingCost, setShippingCost] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<CheckoutResult | null>(null);
@@ -62,6 +68,33 @@ export default function CheckoutClient() {
   const [showInstructions, setShowInstructions] = useState(false);
 
   const countdown = useCountdown(result?.expiresAt ?? null);
+
+  // Cek apakah di keranjang ada produk besar / kargo (seperti Box Hanata 3101)
+  const hasCargoItem = items.some((i) => 
+    i.name.toLowerCase().includes("hanata") || 
+    i.name.toLowerCase().includes("keranjang industri") ||
+    i.name.toLowerCase().includes("container")
+  );
+
+  // Daftar kurir yang diperbarui (SiCepat dihapus, Lalamove & GoCar ditambahkan)
+  const availableCouriers = hasCargoItem
+    ? [
+        { id: "jtr", name: "JNE Trucking (JTR) - Kargo", cost: 50000, desc: "Estimasi 2-4 hari" },
+        { id: "lalamove", name: "Lalamove - Instant Car", cost: 120000, desc: "Sangat disarankan untuk barang besar" },
+        { id: "gocar", name: "GoCar / GoSend Instant", cost: 135000, desc: "Sampai di hari yang sama" },
+      ]
+    : [
+        { id: "jne_reg", name: "JNE Regular", cost: 15000, desc: "Estimasi 2-3 hari" },
+        { id: "jnt_reg", name: "J&T Express", cost: 14000, desc: "Estimasi 2-3 hari" },
+      ];
+
+  const handleCourierChange = (courierId: string) => {
+    const selected = availableCouriers.find((c) => c.id === courierId);
+    setForm({ ...form, courier: courierId });
+    setShippingCost(selected ? selected.cost : 0);
+  };
+
+  const grandTotal = totalPrice + shippingCost;
 
   useEffect(() => {
     if (!result) return;
@@ -85,6 +118,10 @@ export default function CheckoutClient() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!form.courier) {
+      setError("Silakan pilih kurir pengiriman terlebih dahulu!");
+      return;
+    }
     setError(null);
     setLoading(true);
     try {
@@ -92,7 +129,11 @@ export default function CheckoutClient() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...form,
+          customerName: form.customerName,
+          customerPhone: form.customerPhone,
+          customerAddress: form.customerAddress,
+          courier: form.courier,
+          shippingCost: shippingCost,
           items: items.map((i) => ({ productId: i.productId, quantity: i.quantity })),
         }),
       });
@@ -123,7 +164,7 @@ export default function CheckoutClient() {
             Pembayaran Berhasil!
           </h1>
           <p className="text-body-lg text-ink-muted mb-stack-lg max-w-lg mx-auto">
-            Terima kasih telah berbelanja di PasarDigital. Pesanan Anda sedang diproses.
+            Terima kasih telah berbelanja. Pesanan Anda sedang diproses.
           </p>
 
           <div className="bg-surface rounded-xl p-6 mb-stack-lg text-left border border-outline-variant">
@@ -137,14 +178,14 @@ export default function CheckoutClient() {
               </div>
               <div>
                 <p className="text-label-sm text-ink-muted uppercase tracking-wider mb-1">Metode Pembayaran</p>
-                <p className="text-body-md font-medium text-ink">QRIS</p>
+                <p className="text-body-md font-medium text-ink">QRIS (Xendit)</p>
               </div>
               <div>
-                <p className="text-label-sm text-ink-muted uppercase tracking-wider mb-1">Total Bayar</p>
+                <p className="text-label-sm text-ink-muted uppercase tracking-wider mb-1">Total Pembayaran</p>
                 <p className="text-body-md font-semibold text-primary">{formatRupiah(result.totalAmount)}</p>
               </div>
               <div>
-                <p className="text-label-sm text-ink-muted uppercase tracking-wider mb-1">Tanggal Bayar</p>
+                <p className="text-label-sm text-ink-muted uppercase tracking-wider mb-1">Tanggal</p>
                 <p className="text-body-md font-medium text-ink">
                   {new Date().toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short" })} WIB
                 </p>
@@ -152,21 +193,9 @@ export default function CheckoutClient() {
             </div>
           </div>
 
-          <div className="bg-surface-low rounded-xl p-6 mb-stack-lg text-left flex items-start gap-stack-md">
-            <span className="material-symbols-outlined text-primary mt-1">mark_email_read</span>
-            <div>
-              <h3 className="text-label-md text-ink mb-1">Selanjutnya?</h3>
-              <p className="text-body-sm text-ink-muted">
-                Penjual akan segera menyiapkan dan mengirim pesanan Anda. Anda bisa memantau statusnya kapan saja.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex flex-col md:flex-row gap-stack-md justify-center">
-            <button onClick={() => router.push("/")} className="px-8 py-3 bg-primary text-white text-label-md rounded-full hover:bg-primary-hover transition-colors shadow-sm">
-              Kembali ke Beranda
-            </button>
-          </div>
+          <button onClick={() => router.push("/")} className="px-8 py-3 bg-primary text-white text-label-md rounded-full hover:bg-primary-hover transition-colors shadow-sm">
+            Kembali ke Beranda
+          </button>
         </div>
       </div>
     );
@@ -198,13 +227,13 @@ export default function CheckoutClient() {
             >
               <span className="material-symbols-outlined">arrow_back</span>
             </button>
-            <h1 className="text-headline-sm text-ink">Detail Pembayaran</h1>
+            <h1 className="text-headline-sm text-ink">Detail Pembayaran QRIS</h1>
           </div>
 
           <div className="p-stack-lg flex flex-col items-center gap-stack-lg">
             <div className="text-center w-full">
               <p className="text-label-sm text-ink-muted uppercase tracking-wider mb-stack-xs">
-                Total Bayar
+                Total Bayar (Termasuk Ongkir)
               </p>
               <div className="text-display-lg-mobile md:text-display-lg text-primary mb-stack-sm">
                 {formatRupiah(result.totalAmount)}
@@ -231,7 +260,7 @@ export default function CheckoutClient() {
                 <QRCode value={result.qrString} size={200} />
               </div>
               <p className="text-body-sm text-ink-muted text-center">
-                Scan dengan aplikasi e-wallet atau m-banking apa saja yang mendukung QRIS.
+                Scan dengan m-banking atau e-wallet apa saja yang mendukung QRIS.
               </p>
             </div>
 
@@ -244,51 +273,38 @@ export default function CheckoutClient() {
                   <span className="material-symbols-outlined">help_outline</span>
                   <span className="text-label-md">Cara membayar dengan QRIS?</span>
                 </div>
-                <span
-                  className={`material-symbols-outlined transition-transform duration-300 ${
-                    showInstructions ? "rotate-180" : ""
-                  }`}
-                >
+                <span className={`material-symbols-outlined transition-transform duration-300 ${showInstructions ? "rotate-180" : ""}`}>
                   expand_more
                 </span>
               </button>
               {showInstructions && (
                 <div className="bg-surface-lowest max-h-48 overflow-y-auto border-t border-outline-variant p-stack-md">
                   <ol className="list-decimal list-inside space-y-stack-sm text-body-sm text-ink-muted">
-                    <li>Buka aplikasi m-banking atau e-wallet Anda (GoPay, OVO, DANA, ShopeePay, BCA mobile, Livin&apos; by Mandiri, dsb).</li>
+                    <li>Buka aplikasi m-banking atau e-wallet (GoPay, OVO, DANA, ShopeePay, BCA, Mandiri, dll).</li>
                     <li>Pilih menu <strong>Scan QR</strong> atau <strong>Bayar</strong>.</li>
-                    <li>Scan kode QR di atas. Jika membuka di HP yang sama, simpan gambar QR lalu pilih dari galeri.</li>
-                    <li>Pastikan nominal yang tampil sesuai dengan <strong>{formatRupiah(result.totalAmount)}</strong>.</li>
-                    <li>Konfirmasi pembayaran dan masukkan PIN untuk menyelesaikan transaksi.</li>
+                    <li>Scan kode QR di atas.</li>
+                    <li>Pastikan nominal sesuai dengan <strong>{formatRupiah(result.totalAmount)}</strong>.</li>
+                    <li>Konfirmasi pembayaran dan masukkan PIN.</li>
                   </ol>
                 </div>
               )}
             </div>
           </div>
 
-          <div className="p-stack-md bg-surface-low border-t border-outline-variant flex flex-col gap-stack-sm">
-            <div className="w-full text-center flex items-center justify-center gap-2 text-body-sm text-ink-muted py-2">
-              <span className="w-2 h-2 rounded-full bg-tertiary-container animate-pulse" />
-              Menunggu konfirmasi pembayaran otomatis...
-            </div>
+          <div className="p-stack-md bg-surface-low border-t border-outline-variant text-center text-body-sm text-ink-muted">
+            <span className="inline-block w-2 h-2 rounded-full bg-tertiary-container animate-pulse mr-2" />
+            Menunggu konfirmasi pembayaran otomatis...
           </div>
-        </div>
-
-        <div className="mt-stack-lg flex items-center justify-center gap-stack-sm text-ink-muted">
-          <span className="material-symbols-outlined filled text-[18px]">lock</span>
-          <span className="text-label-sm uppercase tracking-wider">
-            Pembayaran Aman oleh PasarDigital &amp; Xendit
-          </span>
         </div>
       </main>
     );
   }
 
-  // ==== Form data pembeli ====
+  // ==== Form Data Pembeli & Pilihan Kurir ====
   return (
-    <div className="grid md:grid-cols-3 gap-gutter">
+    <div className="grid md:grid-cols-3 gap-gutter items-start">
       <form onSubmit={handleSubmit} className="md:col-span-2 flex flex-col gap-stack-md card p-stack-lg">
-        <h1 className="text-headline-md text-ink mb-stack-sm">Data Pengiriman</h1>
+        <h1 className="text-headline-md text-ink mb-stack-sm">Data Pengiriman & Kurir</h1>
 
         <div>
           <label className="block text-label-sm text-ink-muted mb-1">Nama Lengkap</label>
@@ -316,32 +332,88 @@ export default function CheckoutClient() {
             rows={3}
             value={form.customerAddress}
             onChange={(e) => setForm({ ...form, customerAddress: e.target.value })}
+            placeholder="Nama jalan, nomor rumah, RT/RW, kelurahan, kecamatan..."
             className="w-full border border-outline-variant rounded-lg px-4 py-2.5 bg-surface-lowest focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
           />
         </div>
 
-        {error && <p className="text-danger text-body-sm">{error}</p>}
+        {/* Pilihan Kurir Cerdas */}
+        <div className="mt-2 pt-4 border-t border-outline-variant">
+          <h2 className="text-headline-sm text-ink mb-stack-sm">Pilih Kurir Pengiriman</h2>
+          {hasCargoItem && (
+            <div className="mb-stack-sm p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-800 text-body-sm flex items-start gap-2">
+              <span className="material-symbols-outlined text-[20px] text-amber-600 mt-0.5">local_shipping</span>
+              <p>
+                Keranjang Anda berisi produk besar (seperti <strong>Box Hanata / Industri</strong>). Sistem otomatis menyaring kurir khusus <strong>Kargo</strong> agar pengiriman aman dan sesuai ukuran barang.
+              </p>
+            </div>
+          )}
 
-        <button type="submit" disabled={loading} className="btn-primary mt-stack-sm flex items-center justify-center gap-2">
+          <div className="space-y-3">
+            {availableCouriers.map((courier) => (
+              <label
+                key={courier.id}
+                className={`flex items-center justify-between p-4 border rounded-xl cursor-pointer transition ${
+                  form.courier === courier.id ? "border-primary bg-primary/5" : "border-outline-variant hover:border-primary/50"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <input
+                    type="radio"
+                    name="courier"
+                    value={courier.id}
+                    checked={form.courier === courier.id}
+                    onChange={() => handleCourierChange(courier.id)}
+                    className="text-primary focus:ring-primary"
+                  />
+                  <div>
+                    <p className="font-semibold text-body-md text-ink">{courier.name}</p>
+                    <p className="text-body-sm text-ink-muted">{courier.desc}</p>
+                  </div>
+                </div>
+                <span className="font-bold text-body-md text-primary">{formatRupiah(courier.cost)}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {error && <p className="text-danger text-body-sm mt-2">{error}</p>}
+
+        <button type="submit" disabled={loading} className="btn-primary mt-stack-md flex items-center justify-center gap-2">
           <span className="material-symbols-outlined text-[18px]">qr_code_2</span>
-          {loading ? "Membuat kode QRIS..." : "Buat Pesanan & Bayar QRIS"}
+          {loading ? "Membuat QRIS Xendit..." : "Buat Pesanan & Bayar QRIS"}
         </button>
       </form>
 
+      {/* Ringkasan Pesanan Kanan */}
       <div className="card p-stack-lg h-fit">
         <h2 className="text-headline-sm text-ink mb-stack-md">Ringkasan Pesanan</h2>
-        {items.map((i) => (
-          <div key={i.productId} className="flex justify-between text-body-sm mb-stack-sm text-ink-muted">
-            <span>
-              {i.name} × {i.quantity}
-            </span>
-            <span className="text-ink">{formatRupiah(i.price * i.quantity)}</span>
+        <div className="space-y-2 mb-stack-md max-h-48 overflow-y-auto pr-1">
+          {items.map((i) => (
+            <div key={i.productId} className="flex justify-between text-body-sm text-ink-muted">
+              <span className="line-clamp-1 w-36">
+                {i.name} × {i.quantity}
+              </span>
+              <span className="text-ink">{formatRupiah(i.price * i.quantity)}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="border-t border-outline-variant my-stack-sm pt-3 space-y-2 text-body-sm">
+          <div className="flex justify-between text-ink-muted">
+            <span>Subtotal Produk</span>
+            <span className="text-ink">{formatRupiah(totalPrice)}</span>
           </div>
-        ))}
+          <div className="flex justify-between text-ink-muted">
+            <span>Biaya Pengiriman</span>
+            <span className="text-ink">{formatRupiah(shippingCost)}</span>
+          </div>
+        </div>
+
         <div className="border-t border-outline-variant my-stack-sm" />
         <div className="flex justify-between text-label-md text-ink font-bold">
-          <span>Total</span>
-          <span>{formatRupiah(totalPrice)}</span>
+          <span>Total Pembayaran</span>
+          <span className="text-primary">{formatRupiah(grandTotal)}</span>
         </div>
       </div>
     </div>
