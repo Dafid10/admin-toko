@@ -73,15 +73,15 @@ export async function POST(req: NextRequest) {
     //    lambat/down, konfirmasi pembayaran ke pembeli tidak boleh ikut tertunda/gagal.
     try {
       await pushSaleToSheet({
-        orderNumber: order.orderNumber,
-        paymentMethod: order.paymentMethod,
-        items: order.items.map((i) => ({
-          sku: i.sku,
-          nama: i.productName,
-          qty: i.quantity,
-          harga: i.price,
-        })),
-      });
+    orderNumber: order.orderNumber,
+    paymentMethod: order.paymentMethod,
+    items: order.items.map((i) => ({
+        sku: i.id, // Diubah dari i.sku ke i.id
+        nama: i.productName,
+        qty: i.quantity,
+        harga: i.price,
+    })),
+});
     } catch (sheetError) {
       console.error(`Gagal lapor order ${order.orderNumber} ke Google Sheet:`, sheetError);
       // Tidak melempar error lebih lanjut — order tetap sah LUNAS di database kita,

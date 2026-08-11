@@ -82,7 +82,7 @@ export default function DetailProduk() {
       price: Number(product.price || product.harga || 0),
       imageUrl: currentUrl,
       stock: product.stock !== undefined ? product.stock : (product.stok !== undefined ? product.stok : 100),
-      quantity: 1,
+      
     });
     alert("Produk berhasil ditambahkan ke keranjang!");
   };
@@ -95,8 +95,7 @@ export default function DetailProduk() {
       price: Number(product.price || product.harga || 0),
       imageUrl: currentUrl,
       stock: product.stock !== undefined ? product.stock : (product.stok !== undefined ? product.stok : 100),
-      quantity: 1,
-    });
+    }, 1);
     router.push("/keranjang");
   };
 
