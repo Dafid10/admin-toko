@@ -4,13 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start -p 3000",
-    "lint": "next lint",
-    "prisma:migrate": "prisma migrate deploy",
-    "prisma:studio": "prisma studio",
-    "seed": "tsx prisma/seed.ts",
-    "import:shopee": "tsx prisma/import-shopee.ts"
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@prisma/client": "^5.20.0",
