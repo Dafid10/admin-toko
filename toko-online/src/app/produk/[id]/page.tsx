@@ -67,11 +67,15 @@ export default function DetailProduk() {
   const isVideo = currentUrl.endsWith(".mp4") || currentUrl.includes("video") || currentMedia?.type === "video";
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? mediaList.length - 1 : prev - 1));
+    if (mediaList.length > 0) {
+      setCurrentIndex((prev) => (prev === 0 ? mediaList.length - 1 : prev - 1));
+    }
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev === mediaList.length - 1 ? 0 : prev - 1));
+    if (mediaList.length > 0) {
+      setCurrentIndex((prev) => (prev === mediaList.length - 1 ? 0 : prev + 1));
+    }
   };
 
   // Fungsi saat tombol "Tambah ke Keranjang" diklik
@@ -82,7 +86,6 @@ export default function DetailProduk() {
       price: Number(product.price || product.harga || 0),
       imageUrl: currentUrl,
       stock: product.stock !== undefined ? product.stock : (product.stok !== undefined ? product.stok : 100),
-      
     });
     alert("Produk berhasil ditambahkan ke keranjang!");
   };
