@@ -16,9 +16,10 @@ export default function Home() {
   useEffect(() => {
     async function fetchProducts() {
       setLoading(true);
+      // Menggunakan kueri aman agar tidak error jika relasi kategori berbeda
       const { data, error } = await supabase
         .from("Product")
-        .select("*, ProductMedia(*), category:Category(name)");
+        .select("*, ProductMedia(*)");
 
       if (error) {
         console.error("Error fetching products:", error.message);
