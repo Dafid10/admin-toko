@@ -1,51 +1,45 @@
 import { NextResponse } from "next/server";
-import { GoogleGenAI } from "@google/genai";
-
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export async function POST(req: Request) {
   try {
-    const { message, history, action, customerName } = await req.json();
+    const { message, action, customerName } = await req.json();
 
-    // Jika customer memilih tombol "Kirim ke Telegram / Live Chat"
+    // 1. Logika Telegram
     if (action === "to_telegram") {
       const token = process.env.TELEGRAM_BOT_TOKEN;
       const chatId = process.env.ADMIN_TELEGRAM_CHAT_ID;
 
       if (!token || !chatId) {
-        return NextResponse.json({ error: "Telegram belum dikonfigurasi." }, { status: 500 });
+        return NextResponse.json({ error: "Config Telegram tidak lengkap" }, { status: 500 });
       }
 
-      const text = `💬 *Pesan Live Chat dari Website*\n\n` +
-                   `👤 *Nama:* ${customerName || "Pengunjung"}\n` +
-                   `📝 *Pesan:* ${message}`;
-
-      const resTel = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      const text = `💬 *Pesan dari Website*\n👤 *Nama:* ${customerName || "Pengunjung"}\n📝 *Pesan:* ${message}`;
+      await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ chat_id: chatId, text, parse_mode: "Markdown" }),
       });
-
-      const dataTel = await resTel.json();
-      if (!dataTel.ok) throw new Error("Gagal mengirim ke Telegram");
-
-      return NextResponse.json({ 
-        reply: "Pesan Anda telah diteruskan langsung ke Telegram Penjual. Mohon tunggu balasan berikutnya ya!" 
-      });
+      return NextResponse.json({ reply: "Pesan telah diteruskan ke Telegram." });
     }
 
-    // Jika chat biasa, dijawab oleh Gemini AI
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: message,
-      config: {
-        systemInstruction: "Anda adalah Customer Service AI untuk toko online wadah plastik/box container industri (Hanata). Jawab pertanyaan seputar produk, harga, dan stok dengan ramah. Jika pembeli menanyakan hal di luar kapasitas Anda atau memaksa ingin chat dengan manusia/penjual, arahkan mereka untuk menekan tombol 'Hubungkan ke Penjual' di bawah.",
-      },
-    });
+    // 2. Logika Gemini (Menggunakan Model 1.5 Flash - Model Paling Stabil)
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      console.error("API Key kosong!");
+      return NextResponse.json({ error: "API Key belum diset" }, { status: 500 });
+    }
 
-    return NextResponse.json({ reply: response.text });
-  } catch (error) {
-    console.error("Error Chat API:", error);
-    return NextResponse.json({ error: "Gagal memproses pesan" }, { status: 500 });
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    
+    const result = await model.generateContent(message);
+    const text = result.response.text();
+
+    return NextResponse.json({ reply: text });
+
+  } catch (error: any) {
+    console.error("DETAIL ERROR:", error.message); // Ini akan muncul di log Vercel jika error
+    return NextResponse.json({ error: "Gagal: " + error.message }, { status: 500 });
   }
 }
