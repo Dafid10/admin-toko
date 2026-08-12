@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
+import Link from "next/link";
 
 type Category = { id: string; name: string };
 type ProductMedia = {
@@ -393,7 +394,18 @@ export default function ProductManager() {
 
       <div className="flex items-center justify-between mb-stack-lg">
         <h2 className="text-headline-sm">Daftar Produk</h2>
-        <button onClick={() => setShowForm(true)} className="btn-primary">+ Tambah Produk</button>
+        <div className="flex gap-2">
+            {!editingProduct && (
+                <button 
+                    type="button" 
+                    onClick={() => setIsBulk(!isBulk)} 
+                    className="text-sm text-primary font-medium underline"
+                >
+                    {isBulk ? "Mode Satuan" : "Mode Massal (Excel/TSV)"}
+                </button>
+            )}
+            <Link href="/admin/products/new" className="btn-primary">+ Tambah Produk</Link>
+        </div>
       </div>
 
       {showForm && (
@@ -402,15 +414,6 @@ export default function ProductManager() {
                 <div className="flex justify-between items-center mb-6">
                     <h3 className="text-xl font-bold">{editingProduct ? "Edit Produk" : "Tambah Produk Baru"}</h3>
                     <div className="flex gap-4 items-center">
-                        {!editingProduct && (
-                            <button 
-                                type="button" 
-                                onClick={() => setIsBulk(!isBulk)} 
-                                className="text-sm text-primary font-medium underline"
-                            >
-                                {isBulk ? "Mode Satuan" : "Mode Massal (Excel/TSV)"}
-                            </button>
-                        )}
                         <button onClick={() => { setShowForm(false); setEditingProduct(null); setIsBulk(false); }} className="text-ink-muted hover:text-ink">Tutup</button>
                     </div>
                 </div>
@@ -430,232 +433,21 @@ export default function ProductManager() {
                             />
                         </div>
                     ) : (
-                        <>
-                            <div className="md:col-span-2">
-                                <label className="text-label-sm block mb-1">Nama Produk</label>
-                                <input required placeholder="Nama produk" value={newProduct.name ?? ''} onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })} className="w-full border rounded-lg px-3 py-2" />
-                            </div>
-                            <div>
-                                <label className="text-label-sm block mb-1">SKU</label>
-                                <input placeholder="SKU/Kode" value={newProduct.sku ?? ''} onChange={(e) => setNewProduct({ ...newProduct, sku: e.target.value })} className="w-full border rounded-lg px-3 py-2" />
-                            </div>
-                            <div>
-                                <label className="text-label-sm block mb-1">Kategori</label>
-                                <select required value={newProduct.categoryId ?? ''} onChange={(e) => setNewProduct({ ...newProduct, categoryId: e.target.value })} className="w-full border rounded-lg px-3 py-2">
-                                    <option value="">Pilih kategori</option>
-                                    {categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
-                                </select>
-                            </div>
-                            <div>
-                                <label className="text-label-sm block mb-1">Harga (Rp)</label>
-                                <input type="number" required placeholder="Harga (Rp)" value={newProduct.price ?? ''} onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })} className="w-full border rounded-lg px-3 py-2" />
-                            </div>
-                            <div>
-                                <label className="text-label-sm block mb-1">Stok</label>
-                                <input type="number" required placeholder="Stok" value={newProduct.stock ?? ''} onChange={(e) => setNewProduct({ ...newProduct, stock: e.target.value })} className="w-full border rounded-lg px-3 py-2" />
-                            </div>
-                            <div>
-                                <label className="text-label-sm block mb-1">Berat (gram)</label>
-                                <input type="number" placeholder="Contoh: 1000 (1kg)" value={newProduct.weight ?? ''} onChange={(e) => setNewProduct({ ...newProduct, weight: e.target.value })} className="w-full border rounded-lg px-3 py-2" />
-                            </div>
-                            <div className="md:col-span-2 grid grid-cols-3 gap-2">
-                                <div>
-                                    <label className="text-label-sm block mb-1">Panjang (cm)</label>
-                                    <input type="number" placeholder="cm" value={newProduct.length ?? ''} onChange={(e) => setNewProduct({ ...newProduct, length: e.target.value })} className="w-full border rounded-lg px-3 py-2" />
-                                </div>
-                                <div>
-                                    <label className="text-label-sm block mb-1">Lebar (cm)</label>
-                                    <input type="number" placeholder="cm" value={newProduct.width ?? ''} onChange={(e) => setNewProduct({ ...newProduct, width: e.target.value })} className="w-full border rounded-lg px-3 py-2" />
-                                </div>
-                                <div>
-                                    <label className="text-label-sm block mb-1">Tinggi (cm)</label>
-                                    <input type="number" placeholder="cm" value={newProduct.height ?? ''} onChange={(e) => setNewProduct({ ...newProduct, height: e.target.value })} className="w-full border rounded-lg px-3 py-2" />
-                                </div>
-                            </div>
-                            <div className="md:col-span-2">
-                                <label className="text-label-sm block mb-1">Deskripsi</label>
-                                <textarea required placeholder="Deskripsi" value={newProduct.description ?? ''} onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })} className="w-full border rounded-lg px-3 py-2" rows={3} />
-                            </div>
-
-                            <div className="md:col-span-2 border-t pt-4">
-                                <h4 className="font-bold mb-3">Status Stok & Varian</h4>
-                                <div className="grid grid-cols-2 gap-4 mb-4">
-                                    <div>
-                                        <label className="text-label-sm block mb-1">Status Stok</label>
-                                        <select value={newProduct.stockStatus} onChange={(e) => setNewProduct({...newProduct, stockStatus: e.target.value})} className="w-full border rounded-lg px-3 py-2">
-                                            <option value="READY">READY STOCK</option>
-                                            <option value="LIMITED">STOK TERBATAS</option>
-                                            <option value="INDENT">INDENT / PRE-ORDER</option>
-                                        </select>
-                                    </div>
-                                    {newProduct.stockStatus === 'INDENT' && (
-                                        <div>
-                                            <label className="text-label-sm block mb-1">Estimasi Indent (Hari)</label>
-                                            <input type="number" placeholder="Contoh: 14" value={newProduct.indentDays} onChange={(e) => setNewProduct({...newProduct, indentDays: e.target.value})} className="w-full border rounded-lg px-3 py-2" />
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div className="space-y-3">
-                                    <div className="flex justify-between items-center">
-                                        <label className="text-label-sm font-bold">Varian Produk (Opsional)</label>
-                                        <button type="button" onClick={() => setNewProduct({...newProduct, variants: [...newProduct.variants, {name: '', price: '', stock: '', sku: ''}]})} className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded border border-blue-200">+ Tambah Varian</button>
-                                    </div>
-                                    {newProduct.variants.map((v, i) => (
-                                        <div key={i} className="grid grid-cols-4 gap-2 bg-gray-50 p-2 rounded border border-dashed">
-                                            <input placeholder="Nama (e.g Merah, XL)" value={v.name} onChange={(e) => {
-                                                const vrs = [...newProduct.variants];
-                                                vrs[i].name = e.target.value;
-                                                setNewProduct({...newProduct, variants: vrs});
-                                            }} className="border rounded px-2 py-1 text-xs" />
-                                            <input type="number" placeholder="Harga (Kosong = Default)" value={v.price} onChange={(e) => {
-                                                const vrs = [...newProduct.variants];
-                                                vrs[i].price = e.target.value;
-                                                setNewProduct({...newProduct, variants: vrs});
-                                            }} className="border rounded px-2 py-1 text-xs" />
-                                            <input type="number" placeholder="Stok" value={v.stock} onChange={(e) => {
-                                                const vrs = [...newProduct.variants];
-                                                vrs[i].stock = e.target.value;
-                                                setNewProduct({...newProduct, variants: vrs});
-                                            }} className="border rounded px-2 py-1 text-xs" />
-                                            <div className="flex gap-1">
-                                                <input placeholder="SKU" value={v.sku} onChange={(e) => {
-                                                    const vrs = [...newProduct.variants];
-                                                    vrs[i].sku = e.target.value;
-                                                    setNewProduct({...newProduct, variants: vrs});
-                                                }} className="border rounded px-2 py-1 text-xs flex-1" />
-                                                <button type="button" onClick={() => setNewProduct({...newProduct, variants: newProduct.variants.filter((_, idx) => idx !== i)})} className="text-red-500">×</button>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className="md:col-span-2 border-t pt-4">
-                                <div className="flex justify-between items-center mb-3">
-                                    <label className="text-label-sm font-bold">Harga Grosir (Tiered Pricing)</label>
-                                    <button type="button" onClick={() => setNewProduct({...newProduct, wholesale: [...newProduct.wholesale, {minQuantity: '', price: ''}]})} className="text-xs bg-orange-50 text-orange-600 px-2 py-1 rounded border border-orange-200">+ Tambah Tier</button>
-                                </div>
-                                <div className="space-y-2">
-                                    {newProduct.wholesale.map((w, i) => (
-                                        <div key={i} className="flex gap-2 items-center">
-                                            <span className="text-xs text-ink-muted">Beli min:</span>
-                                            <input type="number" placeholder="Qty" value={w.minQuantity} onChange={(e) => {
-                                                const ws = [...newProduct.wholesale];
-                                                ws[i].minQuantity = e.target.value;
-                                                setNewProduct({...newProduct, wholesale: ws});
-                                            }} className="w-20 border rounded px-2 py-1 text-xs" />
-                                            <span className="text-xs text-ink-muted">Harga:</span>
-                                            <input type="number" placeholder="Rp" value={w.price} onChange={(e) => {
-                                                const ws = [...newProduct.wholesale];
-                                                ws[i].price = e.target.value;
-                                                setNewProduct({...newProduct, wholesale: ws});
-                                            }} className="flex-1 border rounded px-2 py-1 text-xs" />
-                                            <button type="button" onClick={() => setNewProduct({...newProduct, wholesale: newProduct.wholesale.filter((_, idx) => idx !== i)})} className="text-red-500">×</button>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                            
-                            <div className="md:col-span-2 space-y-4 border-t pt-4">
-                                <label className="text-label-md font-semibold block">Media (Gambar / Video)</label>
-                                
-                                <div className="flex flex-col gap-2">
-                                    <label className="text-sm cursor-pointer bg-gray-100 hover:bg-gray-200 px-4 py-3 rounded-lg text-center font-medium border border-dashed border-gray-400">
-                                        {uploading ? "Sedang Mengunggah..." : "📂 Pilih File (Gambar / Video) dari Komputer"}
-                                        <input 
-                                            type="file" 
-                                            className="hidden" 
-                                            multiple
-                                            onChange={handleFileSelect}
-                                            disabled={uploading}
-                                        />
-                                    </label>
-                                    <p className="text-xs text-ink-muted">Format: JPG, PNG, MP4. Bisa pilih banyak sekaligus.</p>
-                                </div>
-
-                                <div className="space-y-2 max-h-80 overflow-y-auto border p-3 rounded-lg bg-gray-50">
-                                    {/* Preview Area for Selected Media */}
-                                    {newProduct.media.length > 0 && (
-                                        <div className="mb-4 aspect-square w-full max-w-[300px] mx-auto relative rounded-xl overflow-hidden bg-black border">
-                                            {newProduct.media[selectedMediaIndex]?.type === 'IMAGE' ? (
-                                                <img src={newProduct.media[selectedMediaIndex].url} className="w-full h-full object-contain" />
-                                            ) : (
-                                                <video 
-                                                    ref={videoRef}
-                                                    src={newProduct.media[selectedMediaIndex]?.url} 
-                                                    controls 
-                                                    className="w-full h-full"
-                                                    muted // Muted usually helps with autoplay
-                                                />
-                                            )}
-                                        </div>
-                                    )}
-
-                                    {newProduct.media.length === 0 && <p className="text-center text-ink-muted py-4">Belum ada media.</p>}
-                                    {newProduct.media.map((m, i) => (
-                                        <div key={i} className={`flex items-center gap-3 p-2 bg-white rounded-lg border cursor-pointer hover:bg-gray-50 transition-colors ${i === selectedMediaIndex ? 'ring-2 ring-primary/50' : ''} ${m.isPrimary ? 'border-primary' : ''}`} onClick={() => setSelectedMediaIndex(i)}>
-                                            <div className="flex flex-col gap-1">
-                                                <button type="button" onClick={(e) => { e.stopPropagation(); moveMedia(i, 'up'); }} className="text-xs hover:bg-gray-100 p-1 rounded">▲</button>
-                                                <button type="button" onClick={(e) => { e.stopPropagation(); moveMedia(i, 'down'); }} className="text-xs hover:bg-gray-100 p-1 rounded">▼</button>
-                                            </div>
-                                            
-                                            {m.type === 'IMAGE' ? (
-                                                <img src={m.url} className="w-12 h-12 object-cover rounded shadow-sm" />
-                                            ) : (
-                                                <div className="w-12 h-12 flex items-center justify-center bg-black text-white text-[10px] rounded shadow-sm relative">
-                                                    VIDEO
-                                                    <div className="absolute inset-0 flex items-center justify-center bg-black/20">▶️</div>
-                                                </div>
-                                            )}
-                                            
-                                            <div className="flex-1 min-w-0">
-                                                <p className="text-xs truncate text-ink-muted">{m.url}</p>
-                                                <div className="flex gap-2 mt-1">
-                                                    {m.type === 'IMAGE' && (
-                                                        <button 
-                                                            type="button" 
-                                                            onClick={() => setPrimaryMedia(i)}
-                                                            className={`text-[10px] px-2 py-0.5 rounded ${m.isPrimary ? 'bg-primary text-white' : 'bg-gray-100 text-ink hover:bg-gray-200'}`}
-                                                        >
-                                                            {m.isPrimary ? '★ Utama' : 'Jadikan Utama'}
-                                                        </button>
-                                                    )}
-                                                    <span className="text-[10px] bg-gray-100 px-2 py-0.5 rounded uppercase">{m.type}</span>
-                                                </div>
-                                            </div>
-
-                                            <button 
-                                                type="button"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setNewProduct({
-                                                        ...newProduct,
-                                                        media: newProduct.media.filter((_, idx) => idx !== i)
-                                                    });
-                                                    if (selectedMediaIndex === i) setSelectedMediaIndex(0);
-                                                }}
-                                                className="text-red-500 hover:bg-red-50 p-2 rounded"
-                                            >
-                                                🗑️
-                                            </button>
-                                        </div>
-                                    ))}
-                                </div>
-                                {newProduct.media.length > 0 && !newProduct.media.some(m => m.isPrimary) && (
-                                    <p className="text-red-500 text-xs italic">* Pilih salah satu gambar sebagai Gambar Utama.</p>
-                                )}
-                            </div>
-                        </>
+                        <div className="md:col-span-2 p-8 text-center bg-gray-50 rounded-xl border border-dashed">
+                             <p className="text-ink-muted mb-4">Untuk menambah produk satuan, silakan gunakan halaman penuh agar lebih nyaman.</p>
+                             <Link href="/admin/products/new" className="btn-primary inline-block">Buka Halaman Tambah Produk</Link>
+                        </div>
                     )}
 
                     <div className="md:col-span-2 pt-4 flex gap-3">
                         <button type="button" onClick={() => { setShowForm(false); setEditingProduct(null); setIsBulk(false); }} className="btn-secondary flex-1 py-3">
                             Batal
                         </button>
-                        <button type="submit" disabled={saving} className="btn-primary flex-[2] py-3 shadow-lg">
-                            {saving ? "Menyimpan..." : (isBulk ? "Upload Massal" : (editingProduct ? "Simpan Perubahan" : "Simpan Produk"))}
-                        </button>
+                        {isBulk && (
+                            <button type="submit" disabled={saving} className="btn-primary flex-[2] py-3 shadow-lg">
+                                {saving ? "Menyimpan..." : "Upload Massal"}
+                            </button>
+                        )}
                     </div>
                 </form>
             </div>
