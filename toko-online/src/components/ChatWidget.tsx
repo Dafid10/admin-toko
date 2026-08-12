@@ -44,18 +44,18 @@ export default function ChatWidget() {
       {!isOpen ? (
         <button
           onClick={() => setIsOpen(true)}
-          className="bg-primary text-white p-4 rounded-full shadow-lg hover:opacity-90 transition flex items-center gap-2 font-medium text-sm"
+          className="bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition flex items-center gap-2 font-medium text-sm"
         >
           <span className="material-symbols-outlined">smart_toy</span> Tanya AI / Penjual
         </button>
       ) : (
-        <div className="bg-surface-lowest w-80 sm:w-96 h-[500px] border border-outline-variant rounded-2xl shadow-xl flex flex-col overflow-hidden">
-          <div className="bg-primary text-white p-4 flex justify-between items-center">
+        <div className="bg-white w-80 sm:w-96 h-[500px] border border-gray-200 rounded-2xl shadow-xl flex flex-col overflow-hidden">
+          <div className="bg-blue-600 text-white p-4 flex justify-between items-center">
             <h3 className="font-semibold text-sm">Asisten Toko & Live Chat</h3>
             <button onClick={() => setIsOpen(false)} className="text-white font-bold text-lg">×</button>
           </div>
 
-          <div className="p-2 bg-surface-low border-b text-[11px] text-ink-muted flex gap-2 items-center">
+          <div className="p-2 bg-gray-100 border-b text-[11px] text-gray-600 flex gap-2 items-center">
             <span>Nama Anda:</span>
             <input 
               type="text" 
@@ -69,7 +69,7 @@ export default function ChatWidget() {
           <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-gray-50 text-sm">
             {messages.map((m, i) => (
               <div key={i} className={`flex ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`p-3 rounded-xl max-w-[85%] ${m.sender === 'user' ? 'bg-primary text-white' : 'bg-white text-ink border border-outline-variant'}`}>
+                <div className={`p-3 rounded-xl max-w-[85%] ${m.sender === 'user' ? 'bg-blue-600 text-white' : 'bg-white text-gray-800 border'}`}>
                   {m.text}
                 </div>
               </div>
@@ -85,12 +85,12 @@ export default function ChatWidget() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend(false)}
                 placeholder="Ketik pertanyaan ke AI..."
-                className="flex-1 border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary"
+                className="flex-1 border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-500"
               />
               <button 
                 onClick={() => handleSend(false)} 
                 disabled={loading}
-                className="bg-primary text-white px-3 py-2 rounded-lg text-xs font-medium hover:opacity-90"
+                className="bg-blue-600 text-white px-3 py-2 rounded-lg text-xs font-medium hover:bg-blue-700"
               >
                 Kirim AI
               </button>
