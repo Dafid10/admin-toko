@@ -1,28 +1,31 @@
-// ... (import tetap sama)
+import { NextResponse } from "next/server";
+import { GoogleGenAI } from "@google/genai";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
 export async function POST(req: Request) {
   try {
-    const { message, action, customerName } = await req.json();
+    const { message } = await req.json();
 
-    // Logika Telegram tetap sama...
-    if (action === "to_telegram") { /* ... (kode telegram tetap) */ }
-
-    // AMBIL HANYA DATA PRODUK
     const products = await prisma.product.findMany();
-    const productContext = JSON.stringify(products);
+    const orders = await prisma.order.findMany({ 
+      include: { items: { include: { product: true } } } 
+    });
+
+    const storeData = JSON.stringify({ products, orders });
 
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
-      contents: message,
-      config: {
-        systemInstruction: `Anda adalah Customer Service AI toko Hanata. 
-        Data stok tersedia: ${productContext}. 
-        Tugas Anda: Jawab pertanyaan pembeli tentang stok dan info produk. 
-        JANGAN berikan analisis penjualan, tren, atau data transaksi. Jika pembeli bertanya soal itu, arahkan ke kontak penjual.`,
-      },
+      contents: `Data Toko Lengkap (Produk + Penjualan): ${storeData}. 
+      Pertanyaan Admin: ${message}. 
+      Tugas Anda: Anda adalah asisten bisnis cerdas. Analisis data penjualan, tentukan produk terlaris, pendapatan, dan berikan insight strategis dalam Bahasa Indonesia yang ringkas.`,
     });
 
     return NextResponse.json({ reply: response.text });
   } catch (error: any) {
-    return NextResponse.json({ error: "Gagal memproses pesan" }, { status: 500 });
+    console.error("Admin AI Error:", error);
+    return NextResponse.json({ error: "Gagal analisis: " + error.message }, { status: 500 });
   }
 }
