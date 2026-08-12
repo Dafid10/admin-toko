@@ -18,7 +18,7 @@ export default function Home() {
       setLoading(true);
       const { data, error } = await supabase
         .from("Product")
-        .select("*, ProductMedia(*)");
+        .select("*, ProductMedia(*), category:Category(name)");
 
       if (error) {
         console.error("Error fetching products:", error.message);
@@ -73,23 +73,49 @@ export default function Home() {
               const imageUrl = primaryMedia ? (primaryMedia.url || primaryMedia.image || primaryMedia.file_url || primaryMedia.path || "") : fallbackImage;
               const isVideo = imageUrl.endsWith(".mp4") || imageUrl.includes("video") || primaryMedia?.type === "video";
 
+              // Logika Stok & Pre-Order
+              const stockValue = Number(product.stock !== undefined ? product.stock : (product.stok !== undefined ? product.stok : 0));
+              const isPreorder = Boolean(product.isPreorder || product.preorder);
+              const habis = !isPreorder && stockValue <= 0;
+              const stokMenipis = !habis && !isPreorder && stockValue <= 5;
+
               return (
                 <Link
                   key={product.id}
                   href={`/produk/${product.id}`}
-                  className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col group"
+                  className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col group relative"
                 >
                   <div className="relative h-48 w-full bg-gray-100 overflow-hidden flex items-center justify-center">
                     {imageUrl ? (
                       isVideo ? (
-                        <div className="w-full h-full bg-black flex items-center justify-center text-white text-xs font-bold">▶ Video Preview</div>
+                        <div className={`w-full h-full bg-black flex items-center justify-center text-white text-xs font-bold ${habis ? "grayscale opacity-70" : ""}`}>▶ Video Preview</div>
                       ) : (
-                        <img src={imageUrl} alt={product.name || product.nama_produk} className="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+                        <img src={imageUrl} alt={product.name || product.nama_produk} className={`w-full h-full object-cover group-hover:scale-105 transition duration-300 ${habis ? "grayscale opacity-70" : ""}`} />
                       )
                     ) : (
                       <span className="text-gray-400 text-xs">Tanpa Gambar</span>
                     )}
+
+                    {/* Badge / Label Status di Pojok Kiri Atas */}
+                    <div className="absolute top-3 left-3 flex flex-col gap-1 z-10">
+                      {habis && (
+                        <span className="px-2 py-1 bg-red-600 text-white text-[10px] font-bold rounded-md shadow-sm">
+                          Stok Habis
+                        </span>
+                      )}
+                      {isPreorder && (
+                        <span className="px-2 py-1 bg-amber-500 text-white text-[10px] font-bold rounded-md shadow-sm">
+                          Pre-Order
+                        </span>
+                      )}
+                      {stokMenipis && (
+                        <span className="px-2 py-1 bg-orange-500 text-white text-[10px] font-bold rounded-md shadow-sm">
+                          Sisa {stockValue}
+                        </span>
+                      )}
+                    </div>
                   </div>
+
                   <div className="p-4 flex flex-col flex-1 justify-between">
                     <div>
                       <h2 className="font-semibold text-gray-900 text-sm mb-1 line-clamp-2">
