@@ -66,6 +66,10 @@ export default function DetailProduk() {
   const currentUrl = currentMedia ? (currentMedia.url || currentMedia.image || currentMedia.file_url || currentMedia.path || "") : fallbackImage;
   const isVideo = currentUrl.endsWith(".mp4") || currentUrl.includes("video") || currentMedia?.type === "video";
 
+  // Hitung status stok
+  const stockValue = Number(product.stock !== undefined ? product.stock : (product.stok !== undefined ? product.stok : 0));
+  const isOutOfStock = stockValue <= 0;
+
   const handlePrev = () => {
     if (mediaList.length > 0) {
       setCurrentIndex((prev) => (prev === 0 ? mediaList.length - 1 : prev - 1));
@@ -80,24 +84,26 @@ export default function DetailProduk() {
 
   // Fungsi saat tombol "Tambah ke Keranjang" diklik
   const handleAddToCart = () => {
+    if (isOutOfStock) return;
     addItem({
       productId: product.id,
       name: product.name || product.nama_produk,
       price: Number(product.price || product.harga || 0),
       imageUrl: currentUrl,
-      stock: product.stock !== undefined ? product.stock : (product.stok !== undefined ? product.stok : 100),
+      stock: stockValue,
     });
     alert("Produk berhasil ditambahkan ke keranjang!");
   };
 
   // Fungsi saat tombol "Beli Sekarang" diklik
   const handleBuyNow = () => {
+    if (isOutOfStock) return;
     addItem({
       productId: product.id,
       name: product.name || product.nama_produk,
       price: Number(product.price || product.harga || 0),
       imageUrl: currentUrl,
-      stock: product.stock !== undefined ? product.stock : (product.stok !== undefined ? product.stok : 100),
+      stock: stockValue,
     }, 1);
     router.push("/keranjang");
   };
@@ -180,9 +186,16 @@ export default function DetailProduk() {
           {/* Informasi Produk */}
           <div className="flex flex-col justify-between space-y-4">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">
-                {product.name || product.nama_produk}
-              </h1>
+              <div className="flex items-start justify-between gap-2 mb-2">
+                <h1 className="text-2xl font-bold text-gray-900">
+                  {product.name || product.nama_produk}
+                </h1>
+                {isOutOfStock && (
+                  <span className="bg-red-100 text-red-600 text-xs font-semibold px-2.5 py-1 rounded-full flex-shrink-0">
+                    Stok Habis
+                  </span>
+                )}
+              </div>
               <p className="text-gray-500 text-xs mb-4">
                 Kategori: {product.category || product.kategori || "Container & Box Penyimpanan"}
               </p>
@@ -193,20 +206,30 @@ export default function DetailProduk() {
                 {product.description || product.deskripsi || "Belum ada deskripsi untuk produk ini."}
               </p>
               <p className="text-gray-500 text-xs">
-                Stok Tersedia: <strong className="text-gray-800">{product.stock !== undefined ? product.stock : (product.stok !== undefined ? product.stok : "-")}</strong>
+                Stok Tersedia: <strong className={isOutOfStock ? "text-red-600" : "text-gray-800"}>{stockValue}</strong>
               </p>
             </div>
 
             <div className="pt-4 border-t border-gray-100 flex gap-3">
               <button 
                 onClick={handleAddToCart}
-                className="flex-1 bg-gray-100 text-gray-700 py-3 rounded-xl font-medium hover:bg-gray-200 transition text-sm"
+                disabled={isOutOfStock}
+                className={`flex-1 py-3 rounded-xl font-medium transition text-sm ${
+                  isOutOfStock 
+                    ? "bg-gray-100 text-gray-400 cursor-not-allowed" 
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
               >
-                Tambah ke Keranjang
+                {isOutOfStock ? "Stok Habis" : "Tambah ke Keranjang"}
               </button>
               <button 
                 onClick={handleBuyNow}
-                className="flex-1 bg-green-600 text-white py-3 rounded-xl font-medium hover:bg-green-700 transition text-sm"
+                disabled={isOutOfStock}
+                className={`flex-1 py-3 rounded-xl font-medium transition text-sm ${
+                  isOutOfStock 
+                    ? "bg-gray-200 text-gray-400 cursor-not-allowed" 
+                    : "bg-green-600 text-white hover:bg-green-700"
+                }`}
               >
                 Beli Sekarang
               </button>
