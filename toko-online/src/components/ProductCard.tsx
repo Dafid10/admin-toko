@@ -9,6 +9,7 @@ export type ProductCardData = {
   stock: number;
   imageUrl: string | null;
   category: { name: string };
+  isPreorder?: boolean; // Tambahan untuk menandai status Pre-Order
 };
 
 function formatRupiah(amount: number) {
@@ -20,8 +21,9 @@ function formatRupiah(amount: number) {
 }
 
 export default function ProductCard({ product }: { product: ProductCardData }) {
-  const habis = product.stock <= 0;
-  const stokMenipis = !habis && product.stock <= 5;
+  const isPreorder = Boolean(product.isPreorder);
+  const habis = !isPreorder && product.stock <= 0;
+  const stokMenipis = !habis && !isPreorder && product.stock <= 5;
 
   return (
     <div className="bg-surface-lowest rounded-2xl border border-outline-variant shadow-card hover:shadow-card-hover transition-shadow flex flex-col overflow-hidden group">
@@ -46,12 +48,17 @@ export default function ProductCard({ product }: { product: ProductCardData }) {
               Stok Habis
             </span>
           )}
+          {isPreorder && (
+            <span className="px-2 py-1 bg-amber-500 text-white text-label-sm rounded-md shadow-sm">
+              Pre-Order
+            </span>
+          )}
           {stokMenipis && (
             <span className="px-2 py-1 bg-surface-highest text-ink text-label-sm rounded-md shadow-sm">
               Sisa {product.stock}
             </span>
           )}
-          {!habis && !stokMenipis && (
+          {!habis && !stokMenipis && !isPreorder && (
             <span className="px-2 py-1 bg-secondary text-white text-label-sm rounded-md shadow-sm">
               Tersedia
             </span>
@@ -76,13 +83,15 @@ export default function ProductCard({ product }: { product: ProductCardData }) {
             className={`w-full py-2.5 text-label-md rounded-lg flex items-center justify-center gap-2 transition-colors ${
               habis
                 ? "bg-surface-high text-outline cursor-not-allowed pointer-events-none"
+                : isPreorder
+                ? "bg-amber-600 text-white hover:bg-amber-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]"
                 : "bg-primary text-white hover:bg-primary-hover shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]"
             }`}
           >
             <span className="material-symbols-outlined text-[18px]">
-              {habis ? "notifications" : "add_shopping_cart"}
+              {habis ? "notifications" : isPreorder ? "hourglass_top" : "add_shopping_cart"}
             </span>
-            {habis ? "Beri Tahu Saya" : "Lihat Produk"}
+            {habis ? "Beri Tahu Saya" : isPreorder ? "Pesan Pre-Order" : "Lihat Produk"}
           </Link>
         </div>
       </div>
