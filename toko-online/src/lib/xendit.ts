@@ -6,6 +6,8 @@ const XENDIT_API_BASE = "https://api.xendit.co";
 function authHeader() {
   const secret = process.env.XENDIT_SECRET_KEY;
   if (!secret) {
+    // Pengecekan secret key tidak boleh dilakukan di frontend (UI)
+    // Jika di backend (API) tidak diset, biarkan proses error secara internal
     return "";
   }
   // Xendit pakai HTTP Basic Auth: secret key sebagai username, password kosong
