@@ -5,7 +5,19 @@ const XENDIT_API_BASE = "https://api.xendit.co";
 
 function authHeader() {
   const secret = process.env.XENDIT_SECRET_KEY;
-  if (!secret) throw new Error("XENDIT_SECRET_KEY belum diset di .env");
+  if (!secret) {
+    // Jangan throw / hentikan aplikasi. Cukup beri peringatan di log
+    // agar developer sadar konfigurasi belum lengkap, sambil tetap
+    // mengembalikan header kosong agar kode pemanggil dapat menanganani
+    // situasi ini dengan tenang (misal: menampilkan pesan di UI).
+    if (process.env.NODE_ENV !== "production") {
+      console.warn(
+        "[xendit] XENDIT_SECRET_KEY belum diset di environment. " +
+          "Pastikan variabel ini ada di .env.local / .env sebelum melakukan pembayaran asli."
+      );
+    }
+    return "";
+  }
   // Xendit pakai HTTP Basic Auth: secret key sebagai username, password kosong
   const encoded = Buffer.from(`${secret}:`).toString("base64");
   return `Basic ${encoded}`;
