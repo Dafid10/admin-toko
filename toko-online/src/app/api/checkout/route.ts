@@ -95,6 +95,53 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    // 1. Kirim data otomatis ke Google Sheets via Apps Script
+    if (process.env.GOOGLE_SCRIPT_URL) {
+      try {
+        await fetch(`${process.env.GOOGLE_SCRIPT_URL}?key=${process.env.GOOGLE_SCRIPT_KEY}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            orderId: orderNumber,
+            customerName: body.customerName,
+            phone: body.customerPhone,
+            product: orderItemsData.map(i => `${i.productName} (x${i.quantity})`).join(', '),
+            quantity: orderItemsData.reduce((acc, i) => acc + i.quantity, 0),
+            total: totalAmount,
+            status: 'MENUNGGU_PEMBAYARAN'
+          }),
+        });
+      } catch (sheetError) {
+        console.error("Gagal sinkron ke Google Sheets:", sheetError);
+      }
+    }
+
+    // 2. Kirim notifikasi instan ke Telegram Admin
+    if (process.env.TELEGRAM_BOT_TOKEN && process.env.ADMIN_TELEGRAM_CHAT_ID) {
+      try {
+        const productList = orderItemsData.map(i => `• ${i.productName} (x${i.quantity})`).join('\n');
+        const telegramMessage = `🚨 *PESANAN BARU MASUK!* 🚨\n\n` +
+          `📦 *No. Order:* \`${orderNumber}\`\n` +
+          `👤 *Pelanggan:* ${body.customerName} (${body.customerPhone})\n` +
+          `🛒 *Produk:*\n${productList}\n` +
+          `💰 *Total:* Rp ${totalAmount.toLocaleString('id-ID')}\n` +
+          `📍 *Alamat:* ${body.customerAddress}\n\n` +
+          `Status: Menunggu pembayaran (QRIS).`;
+
+        await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: process.env.ADMIN_TELEGRAM_CHAT_ID,
+            text: telegramMessage,
+            parse_mode: 'Markdown',
+          }),
+        });
+      } catch (telegramError) {
+        console.error("Gagal kirim notifikasi Telegram:", telegramError);
+      }
+    }
+
     return NextResponse.json({
       orderId: order.id,
       orderNumber: order.orderNumber,

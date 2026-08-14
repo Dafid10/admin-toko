@@ -73,27 +73,46 @@ export async function POST(req: NextRequest) {
     //    lambat/down, konfirmasi pembayaran ke pembeli tidak boleh ikut tertunda/gagal.
     try {
       await pushSaleToSheet({
-    orderNumber: order.orderNumber,
-    paymentMethod: order.paymentMethod,
-    items: order.items.map((i) => ({
-        sku: i.id, // Diubah dari i.sku ke i.id
-        nama: i.productName,
-        qty: i.quantity,
-        harga: i.price,
-    })),
-});
+        orderNumber: order.orderNumber,
+        paymentMethod: order.paymentMethod,
+        items: order.items.map((i) => ({
+          sku: i.id,
+          nama: i.productName,
+          qty: i.quantity,
+          harga: i.price,
+        })),
+      });
     } catch (sheetError) {
       console.error(`Gagal lapor order ${order.orderNumber} ke Google Sheet:`, sheetError);
-      // Tidak melempar error lebih lanjut — order tetap sah LUNAS di database kita,
-      // stok di MASTER_STOCK bisa disamakan lagi lewat sinkronisasi berikutnya.
     }
+
+    // 4. Kirim notifikasi instan ke Telegram Admin
+    try {
+      const message = `🚨 *PEMBAYARAN BERHASIL (LUNAS)!* 🚨\n\n` +
+        `📦 *No. Order:* \`${order.orderNumber}\`\n` +
+        `👤 *Pelanggan:* ${order.customerName} (${order.customerPhone})\n` +
+        `💰 *Total:* Rp ${order.totalAmount.toLocaleString('id-ID')}\n\n` +
+        `Barang sedang disiapkan. Silakan cek dashboard admin untuk panggil kurir Biteship!`;
+
+      await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: process.env.ADMIN_TELEGRAM_CHAT_ID,
+          text: message,
+          parse_mode: 'Markdown',
+        }),
+      });
+    } catch (telegramError) {
+      console.error("Gagal kirim notifikasi Telegram:", telegramError);
+    }
+
   } else if (status === "FAILED" || status === "EXPIRED") {
     await prisma.order.update({
       where: { id: order.id },
       data: { status: "DIBATALKAN" },
     });
   }
-  // status lain (mis. "PENDING") tidak perlu diapa-apakan, tunggu webhook berikutnya
 
   return NextResponse.json({ ok: true });
 }
