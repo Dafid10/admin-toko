@@ -34,7 +34,7 @@ export default function AdminDashboard() {
 
   // Fungsi simulasi panggil kurir manual (Dispatch)
   // Tombol ini memicu sistem memanggil API kurir (Biteship) dan menerbitkan resi
-  const handleDispatchCourier = (orderId) => {
+  const handleDispatchCourier = (orderId: string) => {
     setLoadingId(orderId);
     setTimeout(() => {
       setOrders((prevOrders) =>
