@@ -30,7 +30,7 @@ const initialOrders = [
 
 export default function AdminDashboard() {
   const [orders, setOrders] = useState(initialOrders);
-  const [loadingId, setLoadingId] = useState(null);
+ const [loadingId, setLoadingId] = useState<string | null>(null);
 
   // Fungsi simulasi panggil kurir manual (Dispatch)
   // Tombol ini memicu sistem memanggil API kurir (Biteship) dan menerbitkan resi
