@@ -14,6 +14,48 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
 const supabase =
   supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null;
 
+// Default demo catalog shown when the live API returns no products (e.g. in
+// preview where Supabase env vars are absent). Keeps the grid populated so the
+// neon UI and bilingual labels are always visible.
+const MOCK_PRODUCTS = [
+  {
+    id: "mock-hnt-3101",
+    sku: "HNT 3101",
+    name: "Container Box HNT 3101 Heavy Duty",
+    price: 185000,
+    stock: 24,
+    stockStatus: "AVAILABLE",
+    imageUrl: "/industrial-plastic-storage-container-box-dark.png",
+  },
+  {
+    id: "mock-hnt-2000m",
+    sku: "HNT 2000M",
+    name: "Container Box HNT 2000M Medium Stackable",
+    price: 142000,
+    stock: 4,
+    stockStatus: "AVAILABLE",
+    imageUrl: "/stackable-plastic-storage-bin-industrial.png",
+  },
+  {
+    id: "mock-sip-136",
+    sku: "SIP 136",
+    name: "Rak Susun SIP 136 Multifungsi",
+    price: 98000,
+    stock: 0,
+    stockStatus: "AVAILABLE",
+    imageUrl: "/plastic-storage-rack-shelf-dark.png",
+  },
+  {
+    id: "mock-sip-220",
+    sku: "SIP 220",
+    name: "Keranjang Industri SIP 220 Pre-Order",
+    price: 76000,
+    stock: 0,
+    stockStatus: "INDENT",
+    imageUrl: "/industrial-plastic-basket-crate.png",
+  },
+];
+
 function formatRupiah(amount: number) {
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
@@ -32,8 +74,8 @@ export default function Home() {
     async function fetchProducts() {
       setLoading(true);
       if (!supabase) {
-        console.warn("[v0] Supabase env vars are not set; skipping product fetch.");
-        setProducts([]);
+        console.warn("[v0] Supabase env vars are not set; showing demo products.");
+        setProducts(MOCK_PRODUCTS);
         setLoading(false);
         return;
       }
@@ -43,8 +85,11 @@ export default function Home() {
 
       if (error) {
         console.error("[v0] Error fetching products:", error.message);
+        setProducts(MOCK_PRODUCTS);
       } else {
-        setProducts(data || []);
+        // Fall back to demo products when the live catalog is empty so the
+        // grid never renders blank.
+        setProducts(data && data.length > 0 ? data : MOCK_PRODUCTS);
       }
       setLoading(false);
     }
