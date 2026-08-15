@@ -8,7 +8,9 @@ import { useCart } from "@/context/CartContext";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Guard: avoid "supabaseUrl is required" crash when env vars are missing.
+const supabase =
+  supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null;
 
 export default function DetailProduk() {
   const params = useParams();
@@ -26,6 +28,11 @@ export default function DetailProduk() {
 
     async function fetchDetail() {
       setLoading(true);
+      if (!supabase) {
+        console.warn("[v0] Supabase env vars are not set; skipping product fetch.");
+        setLoading(false);
+        return;
+      }
       const { data, error } = await supabase
         .from("Product")
         .select("*, ProductMedia(*)")

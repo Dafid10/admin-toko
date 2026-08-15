@@ -61,9 +61,15 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     document.documentElement.lang = newLocale;
   };
 
+  // Robust translation lookup with a multi-level fallback so toggling
+  // languages can never crash even if a dictionary or key is missing:
+  //   1. active locale dictionary
+  //   2. Indonesian dictionary (default language)
+  //   3. the raw key itself
   const t = (key: string) => {
-    const translation = dictionaries[locale][key] || key;
-    return translation;
+    const active = dictionaries[locale] ?? dictionaries.id ?? {};
+    const fallback = dictionaries.id ?? {};
+    return active[key] ?? fallback[key] ?? key;
   };
 
   return (

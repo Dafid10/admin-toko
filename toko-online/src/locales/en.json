@@ -17,5 +17,16 @@
   "common.back": "Back",
   "common.save": "Save",
   "common.cancel": "Cancel",
-  "search.placeholder": "Search products..."
+  "search.placeholder": "Search by product code or name...",
+  "catalog.title": "Product Catalog",
+  "catalog.subtitle": "Explore our premium industrial & storage products.",
+  "catalog.loading": "Loading products...",
+  "catalog.not_found": "No products found.",
+  "catalog.counter": "Products",
+  "product.code": "Code",
+  "product.in_stock": "In Stock",
+  "product.low_stock": "Low Stock",
+  "product.out_of_stock": "Out of Stock",
+  "product.preorder": "Pre-Order",
+  "product.buy": "Buy Now"
 }

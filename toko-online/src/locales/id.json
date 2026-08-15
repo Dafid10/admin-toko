@@ -17,5 +17,16 @@
   "common.back": "Kembali",
   "common.save": "Simpan",
   "common.cancel": "Batal",
-  "search.placeholder": "Cari produk..."
+  "search.placeholder": "Cari berdasarkan kode atau nama produk...",
+  "catalog.title": "Katalog Produk",
+  "catalog.subtitle": "Jelajahi produk industri & penyimpanan kelas atas kami.",
+  "catalog.loading": "Memuat produk...",
+  "catalog.not_found": "Produk tidak ditemukan.",
+  "catalog.counter": "Produk",
+  "product.code": "Kode",
+  "product.in_stock": "Tersedia",
+  "product.low_stock": "Stok Menipis",
+  "product.out_of_stock": "Stok Habis",
+  "product.preorder": "Pre-Order",
+  "product.buy": "Beli Sekarang"
 }

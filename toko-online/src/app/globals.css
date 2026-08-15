@@ -6,8 +6,8 @@
 @tailwind utilities;
 
 body {
-  background-color: #F7F9FB;
-  color: #191C1E;
+  background-color: #020617; /* slate-950 */
+  color: #e2e8f0; /* slate-200 */
 }
 
 .material-symbols-outlined {
