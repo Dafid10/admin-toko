@@ -25,7 +25,6 @@ const MOCK_PRODUCTS = [
     price: 185000,
     stock: 24,
     stockStatus: "AVAILABLE",
-    imageUrl: "/industrial-plastic-storage-container-box-dark.png",
   },
   {
     id: "mock-hnt-2000m",
@@ -34,7 +33,6 @@ const MOCK_PRODUCTS = [
     price: 142000,
     stock: 4,
     stockStatus: "AVAILABLE",
-    imageUrl: "/stackable-plastic-storage-bin-industrial.png",
   },
   {
     id: "mock-sip-136",
@@ -43,7 +41,6 @@ const MOCK_PRODUCTS = [
     price: 98000,
     stock: 0,
     stockStatus: "AVAILABLE",
-    imageUrl: "/plastic-storage-rack-shelf-dark.png",
   },
   {
     id: "mock-sip-220",
@@ -52,7 +49,6 @@ const MOCK_PRODUCTS = [
     price: 76000,
     stock: 0,
     stockStatus: "INDENT",
-    imageUrl: "/industrial-plastic-basket-crate.png",
   },
 ];
 
@@ -164,7 +160,10 @@ export default function Home() {
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {filteredProducts.map((product) => {
               const mediaList = product.ProductMedia || [];
-              const fallbackImage = product.imageUrl || product.image || product.image_url || "";
+              // Only use an image explicitly provided by the live API / Admin
+              // Panel. `gambar` is the field name used by the admin data.
+              const fallbackImage =
+                product.gambar || product.imageUrl || product.image || product.image_url || "";
               const primaryMedia =
                 mediaList.find((m: any) => m.is_primary || m.order === 0) || mediaList[0];
               const imageUrl = primaryMedia
@@ -234,7 +233,16 @@ export default function Home() {
                         />
                       )
                     ) : (
-                      <span className="text-xs text-slate-600">No image</span>
+                      // Clean dark placeholder when no image has been uploaded
+                      // from the Admin Panel yet.
+                      <div className="flex h-full w-full flex-col items-center justify-center gap-2 bg-slate-950/70 text-slate-600">
+                        <span className="material-symbols-outlined text-[44px] text-slate-700">
+                          inventory_2
+                        </span>
+                        <span className="text-[10px] font-medium uppercase tracking-widest text-slate-600">
+                          {t("product.no_image")}
+                        </span>
+                      </div>
                     )}
                   </div>
 

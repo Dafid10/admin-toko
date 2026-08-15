@@ -28,5 +28,6 @@
   "product.low_stock": "Low Stock",
   "product.out_of_stock": "Out of Stock",
   "product.preorder": "Pre-Order",
-  "product.buy": "Buy Now"
+  "product.buy": "Buy Now",
+  "product.no_image": "No image yet"
 }

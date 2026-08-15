@@ -28,5 +28,6 @@
   "product.low_stock": "Stok Menipis",
   "product.out_of_stock": "Stok Habis",
   "product.preorder": "Pre-Order",
-  "product.buy": "Beli Sekarang"
+  "product.buy": "Beli Sekarang",
+  "product.no_image": "Belum ada foto"
 }
