@@ -1,1 +1,4 @@
-c3VjY2Vzc2Z1bGx5IGRvd25sb2FkZWQgdGV4dCBmaWxlIChTSEE6IDQ3ZGRjYzc2MjZmMGJmMjRjOTI2MTAxYWMxYjljYTMwOThmZWUyMDUp
+"use client";
+export default function NotaForm() {
+  return <div className="p-4 text-white">Halaman nota - segera hadir</div>;
+}
