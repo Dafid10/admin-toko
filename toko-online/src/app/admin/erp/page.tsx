@@ -1,1 +1,9 @@
-c3VjY2Vzc2Z1bGx5IGRvd25sb2FkZWQgdGV4dCBmaWxlIChTSEE6IGQyNjBlYzQxN2I2MGNhMDEyYjQ0ZGI4MjhhNzQ1OTI2ZDdiZDA3NTYp
+import ErpDashboard from "./ErpDashboard";
+export default function ErpPage() {
+  return (
+    <div className="p-4">
+      <h1 className="text-2xl font-bold text-white mb-4">ERP Dashboard</h1>
+      <ErpDashboard />
+    </div>
+  );
+}
